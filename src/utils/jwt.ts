@@ -26,3 +26,9 @@ export function verifyAccessToken(token: string): JwtPayload {
 export function verifyRefreshToken(token: string): JwtPayload {
   return jwt.verify(token, env.JWT_REFRESH_SECRET) as JwtPayload;
 }
+
+// RefreshToken table e expiresAt save korar somoy eta lagbe.
+export function getTokenExpiry(token: string): Date {
+  const decoded = jwt.decode(token) as { exp: number };
+  return new Date(decoded.exp * 1000);
+}

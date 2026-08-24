@@ -20,22 +20,22 @@ enum OtpType {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  password    String?
-  firstName   String?
-  lastName    String?
-  phone       String?
+  id           String  @id @default(uuid())
+  email        String  @unique
+  password     String?
+  firstName    String?
+  lastName     String?
+  phone        String?
   profileImage String?
-  role        Role?
+  role         Role?
 
   isEmailVerified   Boolean @default(false)
   isProfileComplete Boolean @default(false)
 
   refreshTokens RefreshToken[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }

@@ -34,10 +34,40 @@ export const selectRole = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, 200, "Onboarding completed. You are now logged in.", tokens);
 });
 
+export const login = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const tokens = await authService.login(email, password);
+  sendResponse(res, 200, "Login successful", tokens);
+});
 
+export const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refreshToken: token } = req.body;
+  const tokens = await authService.refreshToken(token);
+  sendResponse(res, 200, "Token refreshed successfully", tokens);
+});
 
+export const logout = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) throw new ApiError(401, "Unauthorized");
+  const { refreshToken } = req.body;
+  await authService.logout(req.user.userId, refreshToken);
+  sendResponse(res, 200, "Logged out successfully");
+});
 
+export const changePassword = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) throw new ApiError(401, "Unauthorized");
+  const { oldPassword, newPassword } = req.body;
+  await authService.changePassword(req.user.userId, oldPassword, newPassword);
+  sendResponse(res, 200, "Password changed successfully");
+});
 
+export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+  const { email } = req.body;
+  await authService.forgotPassword(email);
+  sendResponse(res, 200, "If this email exists, an OTP has been sent");
+});
 
-
-
+export const resetPassword = catchAsync(async (req: Request, res: Response) => {
+  const { email, otp, newPassword } = req.body;
+  await authService.resetPassword(email, otp, newPassword);
+  sendResponse(res, 200, "Password reset successfully");
+});

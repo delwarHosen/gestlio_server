@@ -10,6 +10,7 @@ import {
   selectRoleSchema,
   loginSchema,
   refreshTokenSchema,
+  logoutSchema,
   changePasswordSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
@@ -24,8 +25,16 @@ router.post("/resend-otp", validate(resendOtpSchema), authController.resendOtp);
 router.post("/complete-profile", validate(completeProfileSchema), authController.completeProfile);
 router.post("/select-role", validate(selectRoleSchema), authController.selectRole);
 
+// ---------- Login / Session (public) ----------
+router.post("/login", validate(loginSchema), authController.login);
+router.post("/refresh-token", validate(refreshTokenSchema), authController.refreshToken);
 
+// ---------- Protected (needs Bearer token) ----------
+router.post("/logout", authenticate, validate(logoutSchema), authController.logout);
+router.post("/change-password", authenticate, validate(changePasswordSchema), authController.changePassword);
 
-
+// ------ Password recovery  -------
+router.post("/forgot-password", validate(forgotPasswordSchema), authController.forgotPassword);
+router.post("/reset-password", validate(resetPasswordSchema), authController.resetPassword);
 
 export default router;

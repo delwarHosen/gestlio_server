@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ROLE } from "../../constants/role";
 
-// UI te 3ta rule dekhano hoise:
+
 // - at least 8 characters
 // - one uppercase and one number
 // - one special character (@, #, !)
@@ -55,6 +55,12 @@ export const loginSchema = z.object({
 });
 
 export const refreshTokenSchema = z.object({
+  body: z.object({
+    refreshToken: z.string().min(1, "Refresh token is required"),
+  }),
+});
+
+export const logoutSchema = z.object({
   body: z.object({
     refreshToken: z.string().min(1, "Refresh token is required"),
   }),
