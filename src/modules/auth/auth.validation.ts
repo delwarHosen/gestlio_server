@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { ROLE } from "../../constants/role";
 
-
+// The UI shows 3 password rules:
 // - at least 8 characters
-// - one uppercase and one number
+// - one uppercase letter and one number
 // - one special character (@, #, !)
 const passwordSchema = z
   .string()
@@ -70,6 +70,12 @@ export const changePasswordSchema = z.object({
   body: z.object({
     oldPassword: z.string().min(1, "Old password is required"),
     newPassword: passwordSchema,
+  }),
+});
+
+export const deleteAccountSchema = z.object({
+  body: z.object({
+    password: z.string().min(1, "Password is required to delete your account"),
   }),
 });
 

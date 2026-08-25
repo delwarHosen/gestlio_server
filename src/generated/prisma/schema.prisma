@@ -29,6 +29,28 @@ model User {
   profileImage String?
   role         Role?
 
+  // Shared profile fields (Host + Cleaner both can use)
+  about    String?
+  playerId String? // OneSignal push notification id
+
+  // Cleaner-only onboarding fields
+  siretNumber            String?
+  isProfessionalVerified Boolean  @default(false)
+  workCity               String?
+  workLatitude           Float?
+  workLongitude          Float?
+  serviceRadius          Int?
+  availability           String? // full_time | part_time | flexible
+  licenseNumber          String?
+  biography              String?
+  interventionZone       String?
+  languages              String[] @default([])
+  servicesOffered        String[] @default([])
+
+  // becomes true once the cleaner completes the mandatory
+  // post-signup "setup profile" wizard (cannot be skipped)
+  isCleanerProfileSetupComplete Boolean @default(false)
+
   isEmailVerified   Boolean @default(false)
   isProfileComplete Boolean @default(false)
 

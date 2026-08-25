@@ -12,6 +12,7 @@ import {
   refreshTokenSchema,
   logoutSchema,
   changePasswordSchema,
+  deleteAccountSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
 } from "./auth.validation";
@@ -32,8 +33,9 @@ router.post("/refresh-token", validate(refreshTokenSchema), authController.refre
 // ---------- Protected (needs Bearer token) ----------
 router.post("/logout", authenticate, validate(logoutSchema), authController.logout);
 router.post("/change-password", authenticate, validate(changePasswordSchema), authController.changePassword);
+router.delete("/delete-account", authenticate, validate(deleteAccountSchema), authController.deleteAccount);
 
-// ------ Password recovery  -------
+// ---------- Password recovery (public) ----------
 router.post("/forgot-password", validate(forgotPasswordSchema), authController.forgotPassword);
 router.post("/reset-password", validate(resetPasswordSchema), authController.resetPassword);
 

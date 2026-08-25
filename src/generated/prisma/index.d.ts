@@ -1081,8 +1081,22 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    workLatitude: number | null
+    workLongitude: number | null
+    serviceRadius: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    workLatitude: number | null
+    workLongitude: number | null
+    serviceRadius: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1094,6 +1108,19 @@ export namespace Prisma {
     phone: string | null
     profileImage: string | null
     role: $Enums.Role | null
+    about: string | null
+    playerId: string | null
+    siretNumber: string | null
+    isProfessionalVerified: boolean | null
+    workCity: string | null
+    workLatitude: number | null
+    workLongitude: number | null
+    serviceRadius: number | null
+    availability: string | null
+    licenseNumber: string | null
+    biography: string | null
+    interventionZone: string | null
+    isCleanerProfileSetupComplete: boolean | null
     isEmailVerified: boolean | null
     isProfileComplete: boolean | null
     createdAt: Date | null
@@ -1109,6 +1136,19 @@ export namespace Prisma {
     phone: string | null
     profileImage: string | null
     role: $Enums.Role | null
+    about: string | null
+    playerId: string | null
+    siretNumber: string | null
+    isProfessionalVerified: boolean | null
+    workCity: string | null
+    workLatitude: number | null
+    workLongitude: number | null
+    serviceRadius: number | null
+    availability: string | null
+    licenseNumber: string | null
+    biography: string | null
+    interventionZone: string | null
+    isCleanerProfileSetupComplete: boolean | null
     isEmailVerified: boolean | null
     isProfileComplete: boolean | null
     createdAt: Date | null
@@ -1124,6 +1164,21 @@ export namespace Prisma {
     phone: number
     profileImage: number
     role: number
+    about: number
+    playerId: number
+    siretNumber: number
+    isProfessionalVerified: number
+    workCity: number
+    workLatitude: number
+    workLongitude: number
+    serviceRadius: number
+    availability: number
+    licenseNumber: number
+    biography: number
+    interventionZone: number
+    languages: number
+    servicesOffered: number
+    isCleanerProfileSetupComplete: number
     isEmailVerified: number
     isProfileComplete: number
     createdAt: number
@@ -1131,6 +1186,18 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    workLatitude?: true
+    workLongitude?: true
+    serviceRadius?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    workLatitude?: true
+    workLongitude?: true
+    serviceRadius?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1141,6 +1208,19 @@ export namespace Prisma {
     phone?: true
     profileImage?: true
     role?: true
+    about?: true
+    playerId?: true
+    siretNumber?: true
+    isProfessionalVerified?: true
+    workCity?: true
+    workLatitude?: true
+    workLongitude?: true
+    serviceRadius?: true
+    availability?: true
+    licenseNumber?: true
+    biography?: true
+    interventionZone?: true
+    isCleanerProfileSetupComplete?: true
     isEmailVerified?: true
     isProfileComplete?: true
     createdAt?: true
@@ -1156,6 +1236,19 @@ export namespace Prisma {
     phone?: true
     profileImage?: true
     role?: true
+    about?: true
+    playerId?: true
+    siretNumber?: true
+    isProfessionalVerified?: true
+    workCity?: true
+    workLatitude?: true
+    workLongitude?: true
+    serviceRadius?: true
+    availability?: true
+    licenseNumber?: true
+    biography?: true
+    interventionZone?: true
+    isCleanerProfileSetupComplete?: true
     isEmailVerified?: true
     isProfileComplete?: true
     createdAt?: true
@@ -1171,6 +1264,21 @@ export namespace Prisma {
     phone?: true
     profileImage?: true
     role?: true
+    about?: true
+    playerId?: true
+    siretNumber?: true
+    isProfessionalVerified?: true
+    workCity?: true
+    workLatitude?: true
+    workLongitude?: true
+    serviceRadius?: true
+    availability?: true
+    licenseNumber?: true
+    biography?: true
+    interventionZone?: true
+    languages?: true
+    servicesOffered?: true
+    isCleanerProfileSetupComplete?: true
     isEmailVerified?: true
     isProfileComplete?: true
     createdAt?: true
@@ -1216,6 +1324,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1246,6 +1366,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1259,11 +1381,28 @@ export namespace Prisma {
     phone: string | null
     profileImage: string | null
     role: $Enums.Role | null
+    about: string | null
+    playerId: string | null
+    siretNumber: string | null
+    isProfessionalVerified: boolean
+    workCity: string | null
+    workLatitude: number | null
+    workLongitude: number | null
+    serviceRadius: number | null
+    availability: string | null
+    licenseNumber: string | null
+    biography: string | null
+    interventionZone: string | null
+    languages: string[]
+    servicesOffered: string[]
+    isCleanerProfileSetupComplete: boolean
     isEmailVerified: boolean
     isProfileComplete: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1291,6 +1430,21 @@ export namespace Prisma {
     phone?: boolean
     profileImage?: boolean
     role?: boolean
+    about?: boolean
+    playerId?: boolean
+    siretNumber?: boolean
+    isProfessionalVerified?: boolean
+    workCity?: boolean
+    workLatitude?: boolean
+    workLongitude?: boolean
+    serviceRadius?: boolean
+    availability?: boolean
+    licenseNumber?: boolean
+    biography?: boolean
+    interventionZone?: boolean
+    languages?: boolean
+    servicesOffered?: boolean
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: boolean
@@ -1308,6 +1462,21 @@ export namespace Prisma {
     phone?: boolean
     profileImage?: boolean
     role?: boolean
+    about?: boolean
+    playerId?: boolean
+    siretNumber?: boolean
+    isProfessionalVerified?: boolean
+    workCity?: boolean
+    workLatitude?: boolean
+    workLongitude?: boolean
+    serviceRadius?: boolean
+    availability?: boolean
+    licenseNumber?: boolean
+    biography?: boolean
+    interventionZone?: boolean
+    languages?: boolean
+    servicesOffered?: boolean
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: boolean
@@ -1323,6 +1492,21 @@ export namespace Prisma {
     phone?: boolean
     profileImage?: boolean
     role?: boolean
+    about?: boolean
+    playerId?: boolean
+    siretNumber?: boolean
+    isProfessionalVerified?: boolean
+    workCity?: boolean
+    workLatitude?: boolean
+    workLongitude?: boolean
+    serviceRadius?: boolean
+    availability?: boolean
+    licenseNumber?: boolean
+    biography?: boolean
+    interventionZone?: boolean
+    languages?: boolean
+    servicesOffered?: boolean
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: boolean
@@ -1349,6 +1533,21 @@ export namespace Prisma {
       phone: string | null
       profileImage: string | null
       role: $Enums.Role | null
+      about: string | null
+      playerId: string | null
+      siretNumber: string | null
+      isProfessionalVerified: boolean
+      workCity: string | null
+      workLatitude: number | null
+      workLongitude: number | null
+      serviceRadius: number | null
+      availability: string | null
+      licenseNumber: string | null
+      biography: string | null
+      interventionZone: string | null
+      languages: string[]
+      servicesOffered: string[]
+      isCleanerProfileSetupComplete: boolean
       isEmailVerified: boolean
       isProfileComplete: boolean
       createdAt: Date
@@ -1755,6 +1954,21 @@ export namespace Prisma {
     readonly phone: FieldRef<"User", 'String'>
     readonly profileImage: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly about: FieldRef<"User", 'String'>
+    readonly playerId: FieldRef<"User", 'String'>
+    readonly siretNumber: FieldRef<"User", 'String'>
+    readonly isProfessionalVerified: FieldRef<"User", 'Boolean'>
+    readonly workCity: FieldRef<"User", 'String'>
+    readonly workLatitude: FieldRef<"User", 'Float'>
+    readonly workLongitude: FieldRef<"User", 'Float'>
+    readonly serviceRadius: FieldRef<"User", 'Int'>
+    readonly availability: FieldRef<"User", 'String'>
+    readonly licenseNumber: FieldRef<"User", 'String'>
+    readonly biography: FieldRef<"User", 'String'>
+    readonly interventionZone: FieldRef<"User", 'String'>
+    readonly languages: FieldRef<"User", 'String[]'>
+    readonly servicesOffered: FieldRef<"User", 'String[]'>
+    readonly isCleanerProfileSetupComplete: FieldRef<"User", 'Boolean'>
     readonly isEmailVerified: FieldRef<"User", 'Boolean'>
     readonly isProfileComplete: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -3977,6 +4191,21 @@ export namespace Prisma {
     phone: 'phone',
     profileImage: 'profileImage',
     role: 'role',
+    about: 'about',
+    playerId: 'playerId',
+    siretNumber: 'siretNumber',
+    isProfessionalVerified: 'isProfessionalVerified',
+    workCity: 'workCity',
+    workLatitude: 'workLatitude',
+    workLongitude: 'workLongitude',
+    serviceRadius: 'serviceRadius',
+    availability: 'availability',
+    licenseNumber: 'licenseNumber',
+    biography: 'biography',
+    interventionZone: 'interventionZone',
+    languages: 'languages',
+    servicesOffered: 'servicesOffered',
+    isCleanerProfileSetupComplete: 'isCleanerProfileSetupComplete',
     isEmailVerified: 'isEmailVerified',
     isProfileComplete: 'isProfileComplete',
     createdAt: 'createdAt',
@@ -4076,6 +4305,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -4101,20 +4358,6 @@ export namespace Prisma {
    */
   export type ListEnumOtpTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtpType[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
   /**
    * Deep Input Types
    */
@@ -4132,6 +4375,21 @@ export namespace Prisma {
     phone?: StringNullableFilter<"User"> | string | null
     profileImage?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
+    about?: StringNullableFilter<"User"> | string | null
+    playerId?: StringNullableFilter<"User"> | string | null
+    siretNumber?: StringNullableFilter<"User"> | string | null
+    isProfessionalVerified?: BoolFilter<"User"> | boolean
+    workCity?: StringNullableFilter<"User"> | string | null
+    workLatitude?: FloatNullableFilter<"User"> | number | null
+    workLongitude?: FloatNullableFilter<"User"> | number | null
+    serviceRadius?: IntNullableFilter<"User"> | number | null
+    availability?: StringNullableFilter<"User"> | string | null
+    licenseNumber?: StringNullableFilter<"User"> | string | null
+    biography?: StringNullableFilter<"User"> | string | null
+    interventionZone?: StringNullableFilter<"User"> | string | null
+    languages?: StringNullableListFilter<"User">
+    servicesOffered?: StringNullableListFilter<"User">
+    isCleanerProfileSetupComplete?: BoolFilter<"User"> | boolean
     isEmailVerified?: BoolFilter<"User"> | boolean
     isProfileComplete?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -4148,6 +4406,21 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     profileImage?: SortOrderInput | SortOrder
     role?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
+    playerId?: SortOrderInput | SortOrder
+    siretNumber?: SortOrderInput | SortOrder
+    isProfessionalVerified?: SortOrder
+    workCity?: SortOrderInput | SortOrder
+    workLatitude?: SortOrderInput | SortOrder
+    workLongitude?: SortOrderInput | SortOrder
+    serviceRadius?: SortOrderInput | SortOrder
+    availability?: SortOrderInput | SortOrder
+    licenseNumber?: SortOrderInput | SortOrder
+    biography?: SortOrderInput | SortOrder
+    interventionZone?: SortOrderInput | SortOrder
+    languages?: SortOrder
+    servicesOffered?: SortOrder
+    isCleanerProfileSetupComplete?: SortOrder
     isEmailVerified?: SortOrder
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
@@ -4167,6 +4440,21 @@ export namespace Prisma {
     phone?: StringNullableFilter<"User"> | string | null
     profileImage?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
+    about?: StringNullableFilter<"User"> | string | null
+    playerId?: StringNullableFilter<"User"> | string | null
+    siretNumber?: StringNullableFilter<"User"> | string | null
+    isProfessionalVerified?: BoolFilter<"User"> | boolean
+    workCity?: StringNullableFilter<"User"> | string | null
+    workLatitude?: FloatNullableFilter<"User"> | number | null
+    workLongitude?: FloatNullableFilter<"User"> | number | null
+    serviceRadius?: IntNullableFilter<"User"> | number | null
+    availability?: StringNullableFilter<"User"> | string | null
+    licenseNumber?: StringNullableFilter<"User"> | string | null
+    biography?: StringNullableFilter<"User"> | string | null
+    interventionZone?: StringNullableFilter<"User"> | string | null
+    languages?: StringNullableListFilter<"User">
+    servicesOffered?: StringNullableListFilter<"User">
+    isCleanerProfileSetupComplete?: BoolFilter<"User"> | boolean
     isEmailVerified?: BoolFilter<"User"> | boolean
     isProfileComplete?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -4183,13 +4471,30 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     profileImage?: SortOrderInput | SortOrder
     role?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
+    playerId?: SortOrderInput | SortOrder
+    siretNumber?: SortOrderInput | SortOrder
+    isProfessionalVerified?: SortOrder
+    workCity?: SortOrderInput | SortOrder
+    workLatitude?: SortOrderInput | SortOrder
+    workLongitude?: SortOrderInput | SortOrder
+    serviceRadius?: SortOrderInput | SortOrder
+    availability?: SortOrderInput | SortOrder
+    licenseNumber?: SortOrderInput | SortOrder
+    biography?: SortOrderInput | SortOrder
+    interventionZone?: SortOrderInput | SortOrder
+    languages?: SortOrder
+    servicesOffered?: SortOrder
+    isCleanerProfileSetupComplete?: SortOrder
     isEmailVerified?: SortOrder
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -4204,6 +4509,21 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     profileImage?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleNullableWithAggregatesFilter<"User"> | $Enums.Role | null
+    about?: StringNullableWithAggregatesFilter<"User"> | string | null
+    playerId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    siretNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isProfessionalVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    workCity?: StringNullableWithAggregatesFilter<"User"> | string | null
+    workLatitude?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    workLongitude?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    serviceRadius?: IntNullableWithAggregatesFilter<"User"> | number | null
+    availability?: StringNullableWithAggregatesFilter<"User"> | string | null
+    licenseNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    biography?: StringNullableWithAggregatesFilter<"User"> | string | null
+    interventionZone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    languages?: StringNullableListFilter<"User">
+    servicesOffered?: StringNullableListFilter<"User">
+    isCleanerProfileSetupComplete?: BoolWithAggregatesFilter<"User"> | boolean
     isEmailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     isProfileComplete?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -4341,6 +4661,21 @@ export namespace Prisma {
     phone?: string | null
     profileImage?: string | null
     role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: Date | string
@@ -4357,6 +4692,21 @@ export namespace Prisma {
     phone?: string | null
     profileImage?: string | null
     role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: Date | string
@@ -4373,6 +4723,21 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4389,6 +4754,21 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4405,6 +4785,21 @@ export namespace Prisma {
     phone?: string | null
     profileImage?: string | null
     role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: Date | string
@@ -4420,6 +4815,21 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4435,6 +4845,21 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4615,6 +5040,36 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4650,10 +5105,31 @@ export namespace Prisma {
     phone?: SortOrder
     profileImage?: SortOrder
     role?: SortOrder
+    about?: SortOrder
+    playerId?: SortOrder
+    siretNumber?: SortOrder
+    isProfessionalVerified?: SortOrder
+    workCity?: SortOrder
+    workLatitude?: SortOrder
+    workLongitude?: SortOrder
+    serviceRadius?: SortOrder
+    availability?: SortOrder
+    licenseNumber?: SortOrder
+    biography?: SortOrder
+    interventionZone?: SortOrder
+    languages?: SortOrder
+    servicesOffered?: SortOrder
+    isCleanerProfileSetupComplete?: SortOrder
     isEmailVerified?: SortOrder
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    workLatitude?: SortOrder
+    workLongitude?: SortOrder
+    serviceRadius?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -4665,6 +5141,19 @@ export namespace Prisma {
     phone?: SortOrder
     profileImage?: SortOrder
     role?: SortOrder
+    about?: SortOrder
+    playerId?: SortOrder
+    siretNumber?: SortOrder
+    isProfessionalVerified?: SortOrder
+    workCity?: SortOrder
+    workLatitude?: SortOrder
+    workLongitude?: SortOrder
+    serviceRadius?: SortOrder
+    availability?: SortOrder
+    licenseNumber?: SortOrder
+    biography?: SortOrder
+    interventionZone?: SortOrder
+    isCleanerProfileSetupComplete?: SortOrder
     isEmailVerified?: SortOrder
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
@@ -4680,10 +5169,29 @@ export namespace Prisma {
     phone?: SortOrder
     profileImage?: SortOrder
     role?: SortOrder
+    about?: SortOrder
+    playerId?: SortOrder
+    siretNumber?: SortOrder
+    isProfessionalVerified?: SortOrder
+    workCity?: SortOrder
+    workLatitude?: SortOrder
+    workLongitude?: SortOrder
+    serviceRadius?: SortOrder
+    availability?: SortOrder
+    licenseNumber?: SortOrder
+    biography?: SortOrder
+    interventionZone?: SortOrder
+    isCleanerProfileSetupComplete?: SortOrder
     isEmailVerified?: SortOrder
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    workLatitude?: SortOrder
+    workLongitude?: SortOrder
+    serviceRadius?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -4738,6 +5246,38 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -4833,6 +5373,14 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type UserCreatelanguagesInput = {
+    set: string[]
+  }
+
+  export type UserCreateservicesOfferedInput = {
+    set: string[]
+  }
+
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -4861,6 +5409,32 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdatelanguagesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateservicesOfferedInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -4953,6 +5527,28 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5009,17 +5605,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel> | null
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel> | null
@@ -5036,6 +5621,38 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -5132,6 +5749,21 @@ export namespace Prisma {
     phone?: string | null
     profileImage?: string | null
     role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: Date | string
@@ -5147,6 +5779,21 @@ export namespace Prisma {
     phone?: string | null
     profileImage?: string | null
     role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
     isEmailVerified?: boolean
     isProfileComplete?: boolean
     createdAt?: Date | string
@@ -5178,6 +5825,21 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5193,6 +5855,21 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

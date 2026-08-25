@@ -60,6 +60,13 @@ export const changePassword = catchAsync(async (req: Request, res: Response) => 
   sendResponse(res, 200, "Password changed successfully");
 });
 
+export const deleteAccount = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) throw new ApiError(401, "Unauthorized");
+  const { password } = req.body;
+  await authService.deleteAccount(req.user.userId, password);
+  sendResponse(res, 200, "Account deleted successfully");
+});
+
 export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
   const { email } = req.body;
   await authService.forgotPassword(email);
