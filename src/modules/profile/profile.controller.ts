@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { ApiError } from "../../utils/ApiError";
 import { profileService } from "./profile.service";
-import { sendResponse } from "../../utils/Apiresponse";
+import { sendResponse } from "../../utils/ApiResponse";
 
 export const getMyProfile = catchAsync(async (req: Request, res: Response) => {
   if (!req.user) throw new ApiError(401, "Unauthorized");

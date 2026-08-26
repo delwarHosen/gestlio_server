@@ -28,6 +28,11 @@ export type Otp = $Result.DefaultSelection<Prisma.$OtpPayload>
  * 
  */
 export type RefreshToken = $Result.DefaultSelection<Prisma.$RefreshTokenPayload>
+/**
+ * Model Accommodation
+ * 
+ */
+export type Accommodation = $Result.DefaultSelection<Prisma.$AccommodationPayload>
 
 /**
  * Enums
@@ -49,6 +54,17 @@ export const OtpType: {
 
 export type OtpType = (typeof OtpType)[keyof typeof OtpType]
 
+
+export const AccommodationType: {
+  APARTMENT: 'APARTMENT',
+  HOUSE: 'HOUSE',
+  STUDIO: 'STUDIO',
+  VILLA: 'VILLA',
+  OTHER: 'OTHER'
+};
+
+export type AccommodationType = (typeof AccommodationType)[keyof typeof AccommodationType]
+
 }
 
 export type Role = $Enums.Role
@@ -58,6 +74,10 @@ export const Role: typeof $Enums.Role
 export type OtpType = $Enums.OtpType
 
 export const OtpType: typeof $Enums.OtpType
+
+export type AccommodationType = $Enums.AccommodationType
+
+export const AccommodationType: typeof $Enums.AccommodationType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -211,6 +231,16 @@ export class PrismaClient<
     * ```
     */
   get refreshToken(): Prisma.RefreshTokenDelegate<ExtArgs>;
+
+  /**
+   * `prisma.accommodation`: Exposes CRUD operations for the **Accommodation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Accommodations
+    * const accommodations = await prisma.accommodation.findMany()
+    * ```
+    */
+  get accommodation(): Prisma.AccommodationDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -654,7 +684,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Otp: 'Otp',
-    RefreshToken: 'RefreshToken'
+    RefreshToken: 'RefreshToken',
+    Accommodation: 'Accommodation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -670,7 +701,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "otp" | "refreshToken"
+      modelProps: "user" | "otp" | "refreshToken" | "accommodation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -884,6 +915,76 @@ export namespace Prisma {
           }
         }
       }
+      Accommodation: {
+        payload: Prisma.$AccommodationPayload<ExtArgs>
+        fields: Prisma.AccommodationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AccommodationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AccommodationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>
+          }
+          findFirst: {
+            args: Prisma.AccommodationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AccommodationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>
+          }
+          findMany: {
+            args: Prisma.AccommodationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>[]
+          }
+          create: {
+            args: Prisma.AccommodationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>
+          }
+          createMany: {
+            args: Prisma.AccommodationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AccommodationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>[]
+          }
+          delete: {
+            args: Prisma.AccommodationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>
+          }
+          update: {
+            args: Prisma.AccommodationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>
+          }
+          deleteMany: {
+            args: Prisma.AccommodationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AccommodationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AccommodationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccommodationPayload>
+          }
+          aggregate: {
+            args: Prisma.AccommodationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccommodation>
+          }
+          groupBy: {
+            args: Prisma.AccommodationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccommodationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AccommodationCountArgs<ExtArgs>
+            result: $Utils.Optional<AccommodationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1046,10 +1147,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     refreshTokens: number
+    accommodations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
+    accommodations?: boolean | UserCountOutputTypeCountAccommodationsArgs
   }
 
   // Custom InputTypes
@@ -1068,6 +1171,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RefreshTokenWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAccommodationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccommodationWhereInput
   }
 
 
@@ -1450,6 +1560,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
+    accommodations?: boolean | User$accommodationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1515,6 +1626,7 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
+    accommodations?: boolean | User$accommodationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1523,6 +1635,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
+      accommodations: Prisma.$AccommodationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1917,6 +2030,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany"> | Null>
+    accommodations<T extends User$accommodationsArgs<ExtArgs> = {}>(args?: Subset<T, User$accommodationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2304,6 +2418,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RefreshTokenScalarFieldEnum | RefreshTokenScalarFieldEnum[]
+  }
+
+  /**
+   * User.accommodations
+   */
+  export type User$accommodationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    where?: AccommodationWhereInput
+    orderBy?: AccommodationOrderByWithRelationInput | AccommodationOrderByWithRelationInput[]
+    cursor?: AccommodationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccommodationScalarFieldEnum | AccommodationScalarFieldEnum[]
   }
 
   /**
@@ -4169,6 +4303,1169 @@ export namespace Prisma {
 
 
   /**
+   * Model Accommodation
+   */
+
+  export type AggregateAccommodation = {
+    _count: AccommodationCountAggregateOutputType | null
+    _avg: AccommodationAvgAggregateOutputType | null
+    _sum: AccommodationSumAggregateOutputType | null
+    _min: AccommodationMinAggregateOutputType | null
+    _max: AccommodationMaxAggregateOutputType | null
+  }
+
+  export type AccommodationAvgAggregateOutputType = {
+    numberOfRooms: number | null
+    surface: number | null
+    cleaningRate: number | null
+  }
+
+  export type AccommodationSumAggregateOutputType = {
+    numberOfRooms: number | null
+    surface: number | null
+    cleaningRate: number | null
+  }
+
+  export type AccommodationMinAggregateOutputType = {
+    id: string | null
+    hostId: string | null
+    name: string | null
+    accommodationType: $Enums.AccommodationType | null
+    address: string | null
+    city: string | null
+    zipCode: string | null
+    floor: string | null
+    doorCode: string | null
+    numberOfRooms: number | null
+    surface: number | null
+    hasElevator: boolean | null
+    cleaningRate: number | null
+    notes: string | null
+    keys: string | null
+    accessCode: string | null
+    instructions: string | null
+    frequency: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccommodationMaxAggregateOutputType = {
+    id: string | null
+    hostId: string | null
+    name: string | null
+    accommodationType: $Enums.AccommodationType | null
+    address: string | null
+    city: string | null
+    zipCode: string | null
+    floor: string | null
+    doorCode: string | null
+    numberOfRooms: number | null
+    surface: number | null
+    hasElevator: boolean | null
+    cleaningRate: number | null
+    notes: string | null
+    keys: string | null
+    accessCode: string | null
+    instructions: string | null
+    frequency: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccommodationCountAggregateOutputType = {
+    id: number
+    hostId: number
+    name: number
+    accommodationType: number
+    address: number
+    city: number
+    zipCode: number
+    floor: number
+    doorCode: number
+    numberOfRooms: number
+    surface: number
+    hasElevator: number
+    cleaningRate: number
+    notes: number
+    keys: number
+    accessCode: number
+    instructions: number
+    frequency: number
+    photos: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AccommodationAvgAggregateInputType = {
+    numberOfRooms?: true
+    surface?: true
+    cleaningRate?: true
+  }
+
+  export type AccommodationSumAggregateInputType = {
+    numberOfRooms?: true
+    surface?: true
+    cleaningRate?: true
+  }
+
+  export type AccommodationMinAggregateInputType = {
+    id?: true
+    hostId?: true
+    name?: true
+    accommodationType?: true
+    address?: true
+    city?: true
+    zipCode?: true
+    floor?: true
+    doorCode?: true
+    numberOfRooms?: true
+    surface?: true
+    hasElevator?: true
+    cleaningRate?: true
+    notes?: true
+    keys?: true
+    accessCode?: true
+    instructions?: true
+    frequency?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccommodationMaxAggregateInputType = {
+    id?: true
+    hostId?: true
+    name?: true
+    accommodationType?: true
+    address?: true
+    city?: true
+    zipCode?: true
+    floor?: true
+    doorCode?: true
+    numberOfRooms?: true
+    surface?: true
+    hasElevator?: true
+    cleaningRate?: true
+    notes?: true
+    keys?: true
+    accessCode?: true
+    instructions?: true
+    frequency?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccommodationCountAggregateInputType = {
+    id?: true
+    hostId?: true
+    name?: true
+    accommodationType?: true
+    address?: true
+    city?: true
+    zipCode?: true
+    floor?: true
+    doorCode?: true
+    numberOfRooms?: true
+    surface?: true
+    hasElevator?: true
+    cleaningRate?: true
+    notes?: true
+    keys?: true
+    accessCode?: true
+    instructions?: true
+    frequency?: true
+    photos?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AccommodationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Accommodation to aggregate.
+     */
+    where?: AccommodationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accommodations to fetch.
+     */
+    orderBy?: AccommodationOrderByWithRelationInput | AccommodationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccommodationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accommodations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accommodations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Accommodations
+    **/
+    _count?: true | AccommodationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AccommodationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AccommodationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccommodationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccommodationMaxAggregateInputType
+  }
+
+  export type GetAccommodationAggregateType<T extends AccommodationAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccommodation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccommodation[P]>
+      : GetScalarType<T[P], AggregateAccommodation[P]>
+  }
+
+
+
+
+  export type AccommodationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccommodationWhereInput
+    orderBy?: AccommodationOrderByWithAggregationInput | AccommodationOrderByWithAggregationInput[]
+    by: AccommodationScalarFieldEnum[] | AccommodationScalarFieldEnum
+    having?: AccommodationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccommodationCountAggregateInputType | true
+    _avg?: AccommodationAvgAggregateInputType
+    _sum?: AccommodationSumAggregateInputType
+    _min?: AccommodationMinAggregateInputType
+    _max?: AccommodationMaxAggregateInputType
+  }
+
+  export type AccommodationGroupByOutputType = {
+    id: string
+    hostId: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor: string | null
+    doorCode: string | null
+    numberOfRooms: number
+    surface: number | null
+    hasElevator: boolean
+    cleaningRate: number
+    notes: string | null
+    keys: string | null
+    accessCode: string | null
+    instructions: string | null
+    frequency: string | null
+    photos: string[]
+    createdAt: Date
+    updatedAt: Date
+    _count: AccommodationCountAggregateOutputType | null
+    _avg: AccommodationAvgAggregateOutputType | null
+    _sum: AccommodationSumAggregateOutputType | null
+    _min: AccommodationMinAggregateOutputType | null
+    _max: AccommodationMaxAggregateOutputType | null
+  }
+
+  type GetAccommodationGroupByPayload<T extends AccommodationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccommodationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccommodationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccommodationGroupByOutputType[P]>
+            : GetScalarType<T[P], AccommodationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccommodationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hostId?: boolean
+    name?: boolean
+    accommodationType?: boolean
+    address?: boolean
+    city?: boolean
+    zipCode?: boolean
+    floor?: boolean
+    doorCode?: boolean
+    numberOfRooms?: boolean
+    surface?: boolean
+    hasElevator?: boolean
+    cleaningRate?: boolean
+    notes?: boolean
+    keys?: boolean
+    accessCode?: boolean
+    instructions?: boolean
+    frequency?: boolean
+    photos?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accommodation"]>
+
+  export type AccommodationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hostId?: boolean
+    name?: boolean
+    accommodationType?: boolean
+    address?: boolean
+    city?: boolean
+    zipCode?: boolean
+    floor?: boolean
+    doorCode?: boolean
+    numberOfRooms?: boolean
+    surface?: boolean
+    hasElevator?: boolean
+    cleaningRate?: boolean
+    notes?: boolean
+    keys?: boolean
+    accessCode?: boolean
+    instructions?: boolean
+    frequency?: boolean
+    photos?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accommodation"]>
+
+  export type AccommodationSelectScalar = {
+    id?: boolean
+    hostId?: boolean
+    name?: boolean
+    accommodationType?: boolean
+    address?: boolean
+    city?: boolean
+    zipCode?: boolean
+    floor?: boolean
+    doorCode?: boolean
+    numberOfRooms?: boolean
+    surface?: boolean
+    hasElevator?: boolean
+    cleaningRate?: boolean
+    notes?: boolean
+    keys?: boolean
+    accessCode?: boolean
+    instructions?: boolean
+    frequency?: boolean
+    photos?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AccommodationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AccommodationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AccommodationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Accommodation"
+    objects: {
+      host: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      hostId: string
+      name: string
+      accommodationType: $Enums.AccommodationType
+      address: string
+      city: string
+      zipCode: string
+      floor: string | null
+      doorCode: string | null
+      numberOfRooms: number
+      surface: number | null
+      hasElevator: boolean
+      cleaningRate: number
+      notes: string | null
+      keys: string | null
+      accessCode: string | null
+      instructions: string | null
+      frequency: string | null
+      photos: string[]
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["accommodation"]>
+    composites: {}
+  }
+
+  type AccommodationGetPayload<S extends boolean | null | undefined | AccommodationDefaultArgs> = $Result.GetResult<Prisma.$AccommodationPayload, S>
+
+  type AccommodationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AccommodationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AccommodationCountAggregateInputType | true
+    }
+
+  export interface AccommodationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Accommodation'], meta: { name: 'Accommodation' } }
+    /**
+     * Find zero or one Accommodation that matches the filter.
+     * @param {AccommodationFindUniqueArgs} args - Arguments to find a Accommodation
+     * @example
+     * // Get one Accommodation
+     * const accommodation = await prisma.accommodation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccommodationFindUniqueArgs>(args: SelectSubset<T, AccommodationFindUniqueArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Accommodation that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AccommodationFindUniqueOrThrowArgs} args - Arguments to find a Accommodation
+     * @example
+     * // Get one Accommodation
+     * const accommodation = await prisma.accommodation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccommodationFindUniqueOrThrowArgs>(args: SelectSubset<T, AccommodationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Accommodation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationFindFirstArgs} args - Arguments to find a Accommodation
+     * @example
+     * // Get one Accommodation
+     * const accommodation = await prisma.accommodation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccommodationFindFirstArgs>(args?: SelectSubset<T, AccommodationFindFirstArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Accommodation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationFindFirstOrThrowArgs} args - Arguments to find a Accommodation
+     * @example
+     * // Get one Accommodation
+     * const accommodation = await prisma.accommodation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccommodationFindFirstOrThrowArgs>(args?: SelectSubset<T, AccommodationFindFirstOrThrowArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Accommodations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Accommodations
+     * const accommodations = await prisma.accommodation.findMany()
+     * 
+     * // Get first 10 Accommodations
+     * const accommodations = await prisma.accommodation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accommodationWithIdOnly = await prisma.accommodation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AccommodationFindManyArgs>(args?: SelectSubset<T, AccommodationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Accommodation.
+     * @param {AccommodationCreateArgs} args - Arguments to create a Accommodation.
+     * @example
+     * // Create one Accommodation
+     * const Accommodation = await prisma.accommodation.create({
+     *   data: {
+     *     // ... data to create a Accommodation
+     *   }
+     * })
+     * 
+     */
+    create<T extends AccommodationCreateArgs>(args: SelectSubset<T, AccommodationCreateArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Accommodations.
+     * @param {AccommodationCreateManyArgs} args - Arguments to create many Accommodations.
+     * @example
+     * // Create many Accommodations
+     * const accommodation = await prisma.accommodation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AccommodationCreateManyArgs>(args?: SelectSubset<T, AccommodationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Accommodations and returns the data saved in the database.
+     * @param {AccommodationCreateManyAndReturnArgs} args - Arguments to create many Accommodations.
+     * @example
+     * // Create many Accommodations
+     * const accommodation = await prisma.accommodation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Accommodations and only return the `id`
+     * const accommodationWithIdOnly = await prisma.accommodation.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AccommodationCreateManyAndReturnArgs>(args?: SelectSubset<T, AccommodationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Accommodation.
+     * @param {AccommodationDeleteArgs} args - Arguments to delete one Accommodation.
+     * @example
+     * // Delete one Accommodation
+     * const Accommodation = await prisma.accommodation.delete({
+     *   where: {
+     *     // ... filter to delete one Accommodation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AccommodationDeleteArgs>(args: SelectSubset<T, AccommodationDeleteArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Accommodation.
+     * @param {AccommodationUpdateArgs} args - Arguments to update one Accommodation.
+     * @example
+     * // Update one Accommodation
+     * const accommodation = await prisma.accommodation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AccommodationUpdateArgs>(args: SelectSubset<T, AccommodationUpdateArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Accommodations.
+     * @param {AccommodationDeleteManyArgs} args - Arguments to filter Accommodations to delete.
+     * @example
+     * // Delete a few Accommodations
+     * const { count } = await prisma.accommodation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AccommodationDeleteManyArgs>(args?: SelectSubset<T, AccommodationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accommodations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Accommodations
+     * const accommodation = await prisma.accommodation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AccommodationUpdateManyArgs>(args: SelectSubset<T, AccommodationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Accommodation.
+     * @param {AccommodationUpsertArgs} args - Arguments to update or create a Accommodation.
+     * @example
+     * // Update or create a Accommodation
+     * const accommodation = await prisma.accommodation.upsert({
+     *   create: {
+     *     // ... data to create a Accommodation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Accommodation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccommodationUpsertArgs>(args: SelectSubset<T, AccommodationUpsertArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Accommodations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationCountArgs} args - Arguments to filter Accommodations to count.
+     * @example
+     * // Count the number of Accommodations
+     * const count = await prisma.accommodation.count({
+     *   where: {
+     *     // ... the filter for the Accommodations we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccommodationCountArgs>(
+      args?: Subset<T, AccommodationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccommodationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Accommodation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccommodationAggregateArgs>(args: Subset<T, AccommodationAggregateArgs>): Prisma.PrismaPromise<GetAccommodationAggregateType<T>>
+
+    /**
+     * Group by Accommodation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccommodationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccommodationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccommodationGroupByArgs['orderBy'] }
+        : { orderBy?: AccommodationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccommodationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccommodationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Accommodation model
+   */
+  readonly fields: AccommodationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Accommodation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccommodationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    host<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Accommodation model
+   */ 
+  interface AccommodationFieldRefs {
+    readonly id: FieldRef<"Accommodation", 'String'>
+    readonly hostId: FieldRef<"Accommodation", 'String'>
+    readonly name: FieldRef<"Accommodation", 'String'>
+    readonly accommodationType: FieldRef<"Accommodation", 'AccommodationType'>
+    readonly address: FieldRef<"Accommodation", 'String'>
+    readonly city: FieldRef<"Accommodation", 'String'>
+    readonly zipCode: FieldRef<"Accommodation", 'String'>
+    readonly floor: FieldRef<"Accommodation", 'String'>
+    readonly doorCode: FieldRef<"Accommodation", 'String'>
+    readonly numberOfRooms: FieldRef<"Accommodation", 'Int'>
+    readonly surface: FieldRef<"Accommodation", 'Float'>
+    readonly hasElevator: FieldRef<"Accommodation", 'Boolean'>
+    readonly cleaningRate: FieldRef<"Accommodation", 'Float'>
+    readonly notes: FieldRef<"Accommodation", 'String'>
+    readonly keys: FieldRef<"Accommodation", 'String'>
+    readonly accessCode: FieldRef<"Accommodation", 'String'>
+    readonly instructions: FieldRef<"Accommodation", 'String'>
+    readonly frequency: FieldRef<"Accommodation", 'String'>
+    readonly photos: FieldRef<"Accommodation", 'String[]'>
+    readonly createdAt: FieldRef<"Accommodation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Accommodation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Accommodation findUnique
+   */
+  export type AccommodationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * Filter, which Accommodation to fetch.
+     */
+    where: AccommodationWhereUniqueInput
+  }
+
+  /**
+   * Accommodation findUniqueOrThrow
+   */
+  export type AccommodationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * Filter, which Accommodation to fetch.
+     */
+    where: AccommodationWhereUniqueInput
+  }
+
+  /**
+   * Accommodation findFirst
+   */
+  export type AccommodationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * Filter, which Accommodation to fetch.
+     */
+    where?: AccommodationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accommodations to fetch.
+     */
+    orderBy?: AccommodationOrderByWithRelationInput | AccommodationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accommodations.
+     */
+    cursor?: AccommodationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accommodations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accommodations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accommodations.
+     */
+    distinct?: AccommodationScalarFieldEnum | AccommodationScalarFieldEnum[]
+  }
+
+  /**
+   * Accommodation findFirstOrThrow
+   */
+  export type AccommodationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * Filter, which Accommodation to fetch.
+     */
+    where?: AccommodationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accommodations to fetch.
+     */
+    orderBy?: AccommodationOrderByWithRelationInput | AccommodationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accommodations.
+     */
+    cursor?: AccommodationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accommodations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accommodations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accommodations.
+     */
+    distinct?: AccommodationScalarFieldEnum | AccommodationScalarFieldEnum[]
+  }
+
+  /**
+   * Accommodation findMany
+   */
+  export type AccommodationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * Filter, which Accommodations to fetch.
+     */
+    where?: AccommodationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accommodations to fetch.
+     */
+    orderBy?: AccommodationOrderByWithRelationInput | AccommodationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Accommodations.
+     */
+    cursor?: AccommodationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accommodations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accommodations.
+     */
+    skip?: number
+    distinct?: AccommodationScalarFieldEnum | AccommodationScalarFieldEnum[]
+  }
+
+  /**
+   * Accommodation create
+   */
+  export type AccommodationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Accommodation.
+     */
+    data: XOR<AccommodationCreateInput, AccommodationUncheckedCreateInput>
+  }
+
+  /**
+   * Accommodation createMany
+   */
+  export type AccommodationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Accommodations.
+     */
+    data: AccommodationCreateManyInput | AccommodationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Accommodation createManyAndReturn
+   */
+  export type AccommodationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Accommodations.
+     */
+    data: AccommodationCreateManyInput | AccommodationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Accommodation update
+   */
+  export type AccommodationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Accommodation.
+     */
+    data: XOR<AccommodationUpdateInput, AccommodationUncheckedUpdateInput>
+    /**
+     * Choose, which Accommodation to update.
+     */
+    where: AccommodationWhereUniqueInput
+  }
+
+  /**
+   * Accommodation updateMany
+   */
+  export type AccommodationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Accommodations.
+     */
+    data: XOR<AccommodationUpdateManyMutationInput, AccommodationUncheckedUpdateManyInput>
+    /**
+     * Filter which Accommodations to update
+     */
+    where?: AccommodationWhereInput
+  }
+
+  /**
+   * Accommodation upsert
+   */
+  export type AccommodationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Accommodation to update in case it exists.
+     */
+    where: AccommodationWhereUniqueInput
+    /**
+     * In case the Accommodation found by the `where` argument doesn't exist, create a new Accommodation with this data.
+     */
+    create: XOR<AccommodationCreateInput, AccommodationUncheckedCreateInput>
+    /**
+     * In case the Accommodation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccommodationUpdateInput, AccommodationUncheckedUpdateInput>
+  }
+
+  /**
+   * Accommodation delete
+   */
+  export type AccommodationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+    /**
+     * Filter which Accommodation to delete.
+     */
+    where: AccommodationWhereUniqueInput
+  }
+
+  /**
+   * Accommodation deleteMany
+   */
+  export type AccommodationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Accommodations to delete
+     */
+    where?: AccommodationWhereInput
+  }
+
+  /**
+   * Accommodation without action
+   */
+  export type AccommodationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Accommodation
+     */
+    select?: AccommodationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccommodationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4238,6 +5535,33 @@ export namespace Prisma {
   };
 
   export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+  export const AccommodationScalarFieldEnum: {
+    id: 'id',
+    hostId: 'hostId',
+    name: 'name',
+    accommodationType: 'accommodationType',
+    address: 'address',
+    city: 'city',
+    zipCode: 'zipCode',
+    floor: 'floor',
+    doorCode: 'doorCode',
+    numberOfRooms: 'numberOfRooms',
+    surface: 'surface',
+    hasElevator: 'hasElevator',
+    cleaningRate: 'cleaningRate',
+    notes: 'notes',
+    keys: 'keys',
+    accessCode: 'accessCode',
+    instructions: 'instructions',
+    frequency: 'frequency',
+    photos: 'photos',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AccommodationScalarFieldEnum = (typeof AccommodationScalarFieldEnum)[keyof typeof AccommodationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4358,6 +5682,20 @@ export namespace Prisma {
    */
   export type ListEnumOtpTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtpType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'AccommodationType'
+   */
+  export type EnumAccommodationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccommodationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccommodationType[]'
+   */
+  export type ListEnumAccommodationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccommodationType[]'>
+    
   /**
    * Deep Input Types
    */
@@ -4395,6 +5733,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     refreshTokens?: RefreshTokenListRelationFilter
+    accommodations?: AccommodationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4426,6 +5765,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
+    accommodations?: AccommodationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4460,6 +5800,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     refreshTokens?: RefreshTokenListRelationFilter
+    accommodations?: AccommodationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4652,6 +5993,143 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string
   }
 
+  export type AccommodationWhereInput = {
+    AND?: AccommodationWhereInput | AccommodationWhereInput[]
+    OR?: AccommodationWhereInput[]
+    NOT?: AccommodationWhereInput | AccommodationWhereInput[]
+    id?: StringFilter<"Accommodation"> | string
+    hostId?: StringFilter<"Accommodation"> | string
+    name?: StringFilter<"Accommodation"> | string
+    accommodationType?: EnumAccommodationTypeFilter<"Accommodation"> | $Enums.AccommodationType
+    address?: StringFilter<"Accommodation"> | string
+    city?: StringFilter<"Accommodation"> | string
+    zipCode?: StringFilter<"Accommodation"> | string
+    floor?: StringNullableFilter<"Accommodation"> | string | null
+    doorCode?: StringNullableFilter<"Accommodation"> | string | null
+    numberOfRooms?: IntFilter<"Accommodation"> | number
+    surface?: FloatNullableFilter<"Accommodation"> | number | null
+    hasElevator?: BoolFilter<"Accommodation"> | boolean
+    cleaningRate?: FloatFilter<"Accommodation"> | number
+    notes?: StringNullableFilter<"Accommodation"> | string | null
+    keys?: StringNullableFilter<"Accommodation"> | string | null
+    accessCode?: StringNullableFilter<"Accommodation"> | string | null
+    instructions?: StringNullableFilter<"Accommodation"> | string | null
+    frequency?: StringNullableFilter<"Accommodation"> | string | null
+    photos?: StringNullableListFilter<"Accommodation">
+    createdAt?: DateTimeFilter<"Accommodation"> | Date | string
+    updatedAt?: DateTimeFilter<"Accommodation"> | Date | string
+    host?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AccommodationOrderByWithRelationInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    accommodationType?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    zipCode?: SortOrder
+    floor?: SortOrderInput | SortOrder
+    doorCode?: SortOrderInput | SortOrder
+    numberOfRooms?: SortOrder
+    surface?: SortOrderInput | SortOrder
+    hasElevator?: SortOrder
+    cleaningRate?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    keys?: SortOrderInput | SortOrder
+    accessCode?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    frequency?: SortOrderInput | SortOrder
+    photos?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    host?: UserOrderByWithRelationInput
+  }
+
+  export type AccommodationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AccommodationWhereInput | AccommodationWhereInput[]
+    OR?: AccommodationWhereInput[]
+    NOT?: AccommodationWhereInput | AccommodationWhereInput[]
+    hostId?: StringFilter<"Accommodation"> | string
+    name?: StringFilter<"Accommodation"> | string
+    accommodationType?: EnumAccommodationTypeFilter<"Accommodation"> | $Enums.AccommodationType
+    address?: StringFilter<"Accommodation"> | string
+    city?: StringFilter<"Accommodation"> | string
+    zipCode?: StringFilter<"Accommodation"> | string
+    floor?: StringNullableFilter<"Accommodation"> | string | null
+    doorCode?: StringNullableFilter<"Accommodation"> | string | null
+    numberOfRooms?: IntFilter<"Accommodation"> | number
+    surface?: FloatNullableFilter<"Accommodation"> | number | null
+    hasElevator?: BoolFilter<"Accommodation"> | boolean
+    cleaningRate?: FloatFilter<"Accommodation"> | number
+    notes?: StringNullableFilter<"Accommodation"> | string | null
+    keys?: StringNullableFilter<"Accommodation"> | string | null
+    accessCode?: StringNullableFilter<"Accommodation"> | string | null
+    instructions?: StringNullableFilter<"Accommodation"> | string | null
+    frequency?: StringNullableFilter<"Accommodation"> | string | null
+    photos?: StringNullableListFilter<"Accommodation">
+    createdAt?: DateTimeFilter<"Accommodation"> | Date | string
+    updatedAt?: DateTimeFilter<"Accommodation"> | Date | string
+    host?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AccommodationOrderByWithAggregationInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    accommodationType?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    zipCode?: SortOrder
+    floor?: SortOrderInput | SortOrder
+    doorCode?: SortOrderInput | SortOrder
+    numberOfRooms?: SortOrder
+    surface?: SortOrderInput | SortOrder
+    hasElevator?: SortOrder
+    cleaningRate?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    keys?: SortOrderInput | SortOrder
+    accessCode?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    frequency?: SortOrderInput | SortOrder
+    photos?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AccommodationCountOrderByAggregateInput
+    _avg?: AccommodationAvgOrderByAggregateInput
+    _max?: AccommodationMaxOrderByAggregateInput
+    _min?: AccommodationMinOrderByAggregateInput
+    _sum?: AccommodationSumOrderByAggregateInput
+  }
+
+  export type AccommodationScalarWhereWithAggregatesInput = {
+    AND?: AccommodationScalarWhereWithAggregatesInput | AccommodationScalarWhereWithAggregatesInput[]
+    OR?: AccommodationScalarWhereWithAggregatesInput[]
+    NOT?: AccommodationScalarWhereWithAggregatesInput | AccommodationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Accommodation"> | string
+    hostId?: StringWithAggregatesFilter<"Accommodation"> | string
+    name?: StringWithAggregatesFilter<"Accommodation"> | string
+    accommodationType?: EnumAccommodationTypeWithAggregatesFilter<"Accommodation"> | $Enums.AccommodationType
+    address?: StringWithAggregatesFilter<"Accommodation"> | string
+    city?: StringWithAggregatesFilter<"Accommodation"> | string
+    zipCode?: StringWithAggregatesFilter<"Accommodation"> | string
+    floor?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    doorCode?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    numberOfRooms?: IntWithAggregatesFilter<"Accommodation"> | number
+    surface?: FloatNullableWithAggregatesFilter<"Accommodation"> | number | null
+    hasElevator?: BoolWithAggregatesFilter<"Accommodation"> | boolean
+    cleaningRate?: FloatWithAggregatesFilter<"Accommodation"> | number
+    notes?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    keys?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    accessCode?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    instructions?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    frequency?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
+    photos?: StringNullableListFilter<"Accommodation">
+    createdAt?: DateTimeWithAggregatesFilter<"Accommodation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Accommodation"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -4681,6 +6159,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    accommodations?: AccommodationCreateNestedManyWithoutHostInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4712,6 +6191,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    accommodations?: AccommodationUncheckedCreateNestedManyWithoutHostInput
   }
 
   export type UserUpdateInput = {
@@ -4743,6 +6223,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    accommodations?: AccommodationUpdateManyWithoutHostNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4774,6 +6255,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    accommodations?: AccommodationUncheckedUpdateManyWithoutHostNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4998,6 +6480,173 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AccommodationCreateInput = {
+    id?: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    host: UserCreateNestedOneWithoutAccommodationsInput
+  }
+
+  export type AccommodationUncheckedCreateInput = {
+    id?: string
+    hostId: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccommodationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutAccommodationsNestedInput
+  }
+
+  export type AccommodationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccommodationCreateManyInput = {
+    id?: string
+    hostId: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccommodationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccommodationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -5087,12 +6736,22 @@ export namespace Prisma {
     none?: RefreshTokenWhereInput
   }
 
+  export type AccommodationListRelationFilter = {
+    every?: AccommodationWhereInput
+    some?: AccommodationWhereInput
+    none?: AccommodationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type RefreshTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AccommodationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5373,6 +7032,159 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumAccommodationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccommodationType | EnumAccommodationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccommodationTypeFilter<$PrismaModel> | $Enums.AccommodationType
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type AccommodationCountOrderByAggregateInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    accommodationType?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    zipCode?: SortOrder
+    floor?: SortOrder
+    doorCode?: SortOrder
+    numberOfRooms?: SortOrder
+    surface?: SortOrder
+    hasElevator?: SortOrder
+    cleaningRate?: SortOrder
+    notes?: SortOrder
+    keys?: SortOrder
+    accessCode?: SortOrder
+    instructions?: SortOrder
+    frequency?: SortOrder
+    photos?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccommodationAvgOrderByAggregateInput = {
+    numberOfRooms?: SortOrder
+    surface?: SortOrder
+    cleaningRate?: SortOrder
+  }
+
+  export type AccommodationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    accommodationType?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    zipCode?: SortOrder
+    floor?: SortOrder
+    doorCode?: SortOrder
+    numberOfRooms?: SortOrder
+    surface?: SortOrder
+    hasElevator?: SortOrder
+    cleaningRate?: SortOrder
+    notes?: SortOrder
+    keys?: SortOrder
+    accessCode?: SortOrder
+    instructions?: SortOrder
+    frequency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccommodationMinOrderByAggregateInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    accommodationType?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    zipCode?: SortOrder
+    floor?: SortOrder
+    doorCode?: SortOrder
+    numberOfRooms?: SortOrder
+    surface?: SortOrder
+    hasElevator?: SortOrder
+    cleaningRate?: SortOrder
+    notes?: SortOrder
+    keys?: SortOrder
+    accessCode?: SortOrder
+    instructions?: SortOrder
+    frequency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccommodationSumOrderByAggregateInput = {
+    numberOfRooms?: SortOrder
+    surface?: SortOrder
+    cleaningRate?: SortOrder
+  }
+
+  export type EnumAccommodationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccommodationType | EnumAccommodationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccommodationTypeWithAggregatesFilter<$PrismaModel> | $Enums.AccommodationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccommodationTypeFilter<$PrismaModel>
+    _max?: NestedEnumAccommodationTypeFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type UserCreatelanguagesInput = {
     set: string[]
   }
@@ -5388,11 +7200,25 @@ export namespace Prisma {
     connect?: RefreshTokenWhereUniqueInput | RefreshTokenWhereUniqueInput[]
   }
 
+  export type AccommodationCreateNestedManyWithoutHostInput = {
+    create?: XOR<AccommodationCreateWithoutHostInput, AccommodationUncheckedCreateWithoutHostInput> | AccommodationCreateWithoutHostInput[] | AccommodationUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: AccommodationCreateOrConnectWithoutHostInput | AccommodationCreateOrConnectWithoutHostInput[]
+    createMany?: AccommodationCreateManyHostInputEnvelope
+    connect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+  }
+
   export type RefreshTokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
     createMany?: RefreshTokenCreateManyUserInputEnvelope
     connect?: RefreshTokenWhereUniqueInput | RefreshTokenWhereUniqueInput[]
+  }
+
+  export type AccommodationUncheckedCreateNestedManyWithoutHostInput = {
+    create?: XOR<AccommodationCreateWithoutHostInput, AccommodationUncheckedCreateWithoutHostInput> | AccommodationCreateWithoutHostInput[] | AccommodationUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: AccommodationCreateOrConnectWithoutHostInput | AccommodationCreateOrConnectWithoutHostInput[]
+    createMany?: AccommodationCreateManyHostInputEnvelope
+    connect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5455,6 +7281,20 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
+  export type AccommodationUpdateManyWithoutHostNestedInput = {
+    create?: XOR<AccommodationCreateWithoutHostInput, AccommodationUncheckedCreateWithoutHostInput> | AccommodationCreateWithoutHostInput[] | AccommodationUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: AccommodationCreateOrConnectWithoutHostInput | AccommodationCreateOrConnectWithoutHostInput[]
+    upsert?: AccommodationUpsertWithWhereUniqueWithoutHostInput | AccommodationUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: AccommodationCreateManyHostInputEnvelope
+    set?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    disconnect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    delete?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    connect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    update?: AccommodationUpdateWithWhereUniqueWithoutHostInput | AccommodationUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: AccommodationUpdateManyWithWhereWithoutHostInput | AccommodationUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: AccommodationScalarWhereInput | AccommodationScalarWhereInput[]
+  }
+
   export type RefreshTokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -5467,6 +7307,20 @@ export namespace Prisma {
     update?: RefreshTokenUpdateWithWhereUniqueWithoutUserInput | RefreshTokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: RefreshTokenUpdateManyWithWhereWithoutUserInput | RefreshTokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
+  }
+
+  export type AccommodationUncheckedUpdateManyWithoutHostNestedInput = {
+    create?: XOR<AccommodationCreateWithoutHostInput, AccommodationUncheckedCreateWithoutHostInput> | AccommodationCreateWithoutHostInput[] | AccommodationUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: AccommodationCreateOrConnectWithoutHostInput | AccommodationCreateOrConnectWithoutHostInput[]
+    upsert?: AccommodationUpsertWithWhereUniqueWithoutHostInput | AccommodationUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: AccommodationCreateManyHostInputEnvelope
+    set?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    disconnect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    delete?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    connect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+    update?: AccommodationUpdateWithWhereUniqueWithoutHostInput | AccommodationUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: AccommodationUpdateManyWithWhereWithoutHostInput | AccommodationUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: AccommodationScalarWhereInput | AccommodationScalarWhereInput[]
   }
 
   export type EnumOtpTypeFieldUpdateOperationsInput = {
@@ -5485,6 +7339,49 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutRefreshTokensInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRefreshTokensInput, UserUpdateWithoutRefreshTokensInput>, UserUncheckedUpdateWithoutRefreshTokensInput>
+  }
+
+  export type AccommodationCreatephotosInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutAccommodationsInput = {
+    create?: XOR<UserCreateWithoutAccommodationsInput, UserUncheckedCreateWithoutAccommodationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAccommodationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumAccommodationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AccommodationType
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type AccommodationUpdatephotosInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutAccommodationsNestedInput = {
+    create?: XOR<UserCreateWithoutAccommodationsInput, UserUncheckedCreateWithoutAccommodationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAccommodationsInput
+    upsert?: UserUpsertWithoutAccommodationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccommodationsInput, UserUpdateWithoutAccommodationsInput>, UserUncheckedUpdateWithoutAccommodationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5686,6 +7583,66 @@ export namespace Prisma {
     _max?: NestedEnumOtpTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumAccommodationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccommodationType | EnumAccommodationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccommodationTypeFilter<$PrismaModel> | $Enums.AccommodationType
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumAccommodationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccommodationType | EnumAccommodationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccommodationTypeWithAggregatesFilter<$PrismaModel> | $Enums.AccommodationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccommodationTypeFilter<$PrismaModel>
+    _max?: NestedEnumAccommodationTypeFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type RefreshTokenCreateWithoutUserInput = {
     id?: string
     token: string
@@ -5709,6 +7666,62 @@ export namespace Prisma {
 
   export type RefreshTokenCreateManyUserInputEnvelope = {
     data: RefreshTokenCreateManyUserInput | RefreshTokenCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AccommodationCreateWithoutHostInput = {
+    id?: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccommodationUncheckedCreateWithoutHostInput = {
+    id?: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccommodationCreateOrConnectWithoutHostInput = {
+    where: AccommodationWhereUniqueInput
+    create: XOR<AccommodationCreateWithoutHostInput, AccommodationUncheckedCreateWithoutHostInput>
+  }
+
+  export type AccommodationCreateManyHostInputEnvelope = {
+    data: AccommodationCreateManyHostInput | AccommodationCreateManyHostInput[]
     skipDuplicates?: boolean
   }
 
@@ -5740,6 +7753,49 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
   }
 
+  export type AccommodationUpsertWithWhereUniqueWithoutHostInput = {
+    where: AccommodationWhereUniqueInput
+    update: XOR<AccommodationUpdateWithoutHostInput, AccommodationUncheckedUpdateWithoutHostInput>
+    create: XOR<AccommodationCreateWithoutHostInput, AccommodationUncheckedCreateWithoutHostInput>
+  }
+
+  export type AccommodationUpdateWithWhereUniqueWithoutHostInput = {
+    where: AccommodationWhereUniqueInput
+    data: XOR<AccommodationUpdateWithoutHostInput, AccommodationUncheckedUpdateWithoutHostInput>
+  }
+
+  export type AccommodationUpdateManyWithWhereWithoutHostInput = {
+    where: AccommodationScalarWhereInput
+    data: XOR<AccommodationUpdateManyMutationInput, AccommodationUncheckedUpdateManyWithoutHostInput>
+  }
+
+  export type AccommodationScalarWhereInput = {
+    AND?: AccommodationScalarWhereInput | AccommodationScalarWhereInput[]
+    OR?: AccommodationScalarWhereInput[]
+    NOT?: AccommodationScalarWhereInput | AccommodationScalarWhereInput[]
+    id?: StringFilter<"Accommodation"> | string
+    hostId?: StringFilter<"Accommodation"> | string
+    name?: StringFilter<"Accommodation"> | string
+    accommodationType?: EnumAccommodationTypeFilter<"Accommodation"> | $Enums.AccommodationType
+    address?: StringFilter<"Accommodation"> | string
+    city?: StringFilter<"Accommodation"> | string
+    zipCode?: StringFilter<"Accommodation"> | string
+    floor?: StringNullableFilter<"Accommodation"> | string | null
+    doorCode?: StringNullableFilter<"Accommodation"> | string | null
+    numberOfRooms?: IntFilter<"Accommodation"> | number
+    surface?: FloatNullableFilter<"Accommodation"> | number | null
+    hasElevator?: BoolFilter<"Accommodation"> | boolean
+    cleaningRate?: FloatFilter<"Accommodation"> | number
+    notes?: StringNullableFilter<"Accommodation"> | string | null
+    keys?: StringNullableFilter<"Accommodation"> | string | null
+    accessCode?: StringNullableFilter<"Accommodation"> | string | null
+    instructions?: StringNullableFilter<"Accommodation"> | string | null
+    frequency?: StringNullableFilter<"Accommodation"> | string | null
+    photos?: StringNullableListFilter<"Accommodation">
+    createdAt?: DateTimeFilter<"Accommodation"> | Date | string
+    updatedAt?: DateTimeFilter<"Accommodation"> | Date | string
+  }
+
   export type UserCreateWithoutRefreshTokensInput = {
     id?: string
     email: string
@@ -5768,6 +7824,7 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    accommodations?: AccommodationCreateNestedManyWithoutHostInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -5798,6 +7855,7 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    accommodations?: AccommodationUncheckedCreateNestedManyWithoutHostInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -5844,6 +7902,7 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accommodations?: AccommodationUpdateManyWithoutHostNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -5874,6 +7933,147 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accommodations?: AccommodationUncheckedUpdateManyWithoutHostNestedInput
+  }
+
+  export type UserCreateWithoutAccommodationsInput = {
+    id?: string
+    email: string
+    password?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    phone?: string | null
+    profileImage?: string | null
+    role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAccommodationsInput = {
+    id?: string
+    email: string
+    password?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    phone?: string | null
+    profileImage?: string | null
+    role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAccommodationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAccommodationsInput, UserUncheckedCreateWithoutAccommodationsInput>
+  }
+
+  export type UserUpsertWithoutAccommodationsInput = {
+    update: XOR<UserUpdateWithoutAccommodationsInput, UserUncheckedUpdateWithoutAccommodationsInput>
+    create: XOR<UserCreateWithoutAccommodationsInput, UserUncheckedCreateWithoutAccommodationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAccommodationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAccommodationsInput, UserUncheckedUpdateWithoutAccommodationsInput>
+  }
+
+  export type UserUpdateWithoutAccommodationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAccommodationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RefreshTokenCreateManyUserInput = {
@@ -5882,6 +8082,29 @@ export namespace Prisma {
     expiresAt: Date | string
     isRevoked?: boolean
     createdAt?: Date | string
+  }
+
+  export type AccommodationCreateManyHostInput = {
+    id?: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RefreshTokenUpdateWithoutUserInput = {
@@ -5908,6 +8131,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AccommodationUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccommodationUncheckedUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccommodationUncheckedUpdateManyWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -5929,6 +8221,10 @@ export namespace Prisma {
      * @deprecated Use RefreshTokenDefaultArgs instead
      */
     export type RefreshTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RefreshTokenDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AccommodationDefaultArgs instead
+     */
+    export type AccommodationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AccommodationDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

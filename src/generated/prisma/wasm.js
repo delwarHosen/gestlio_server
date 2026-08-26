@@ -171,6 +171,30 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AccommodationScalarFieldEnum = {
+  id: 'id',
+  hostId: 'hostId',
+  name: 'name',
+  accommodationType: 'accommodationType',
+  address: 'address',
+  city: 'city',
+  zipCode: 'zipCode',
+  floor: 'floor',
+  doorCode: 'doorCode',
+  numberOfRooms: 'numberOfRooms',
+  surface: 'surface',
+  hasElevator: 'hasElevator',
+  cleaningRate: 'cleaningRate',
+  notes: 'notes',
+  keys: 'keys',
+  accessCode: 'accessCode',
+  instructions: 'instructions',
+  frequency: 'frequency',
+  photos: 'photos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -196,10 +220,19 @@ exports.OtpType = exports.$Enums.OtpType = {
   PASSWORD_RESET: 'PASSWORD_RESET'
 };
 
+exports.AccommodationType = exports.$Enums.AccommodationType = {
+  APARTMENT: 'APARTMENT',
+  HOUSE: 'HOUSE',
+  STUDIO: 'STUDIO',
+  VILLA: 'VILLA',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Otp: 'Otp',
-  RefreshToken: 'RefreshToken'
+  RefreshToken: 'RefreshToken',
+  Accommodation: 'Accommodation'
 };
 
 /**

@@ -11,7 +11,11 @@ declare global {
   }
 }
 
-export function authenticate(req: Request, res: Response, next: NextFunction) {
+export function authenticate(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const authHeader = req.headers.authorization;
 
@@ -27,4 +31,18 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   } catch (error) {
     next(new ApiError(401, "Invalid or expired access token"));
   }
+}
+
+// Pass in which roles are allowed for a route.
+// Example: authorizeRoles(ROLE.HOST) -> only a Host can pass through
+export function authorizeRoles(...allowedRoles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(new ApiError(401, "Unauthorized"));
+    }
+    if (!req.user.role || !allowedRoles.includes(req.user.role)) {
+      return next(new ApiError(403, "You do not have permission for this action"));
+    }
+    next();
+  };
 }

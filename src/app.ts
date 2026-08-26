@@ -3,6 +3,8 @@ import cors from "cors";
 import path from "path";
 import authRoutes from "./modules/auth/auth.routes";
 import profileRoutes from "./modules/profile/profile.routes";
+import accommodationRoutes from "./modules/accommodation/accommodation.routes";
+
 import { errorMiddleware } from "./middlewares/error.middleware";
 
 const app: Application = express();
@@ -25,6 +27,9 @@ app.use("/api/v1/auth", authRoutes);
 // Profile module is code-organized separately, but kept under the same
 // /auth prefix so the existing Postman URLs (/auth/update-me etc.) still work
 app.use("/api/v1/auth", profileRoutes);
+
+// Accommodation api endpoint
+app.use("/api/v1/accommodation", accommodationRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

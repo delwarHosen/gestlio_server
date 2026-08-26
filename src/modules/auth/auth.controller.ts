@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { ApiError } from "../../utils/ApiError";
 import { authService } from "./auth.service";
-import { sendResponse } from "../../utils/Apiresponse";
+import { sendResponse } from "../../utils/ApiResponse";
 
 export const register = catchAsync(async (req: Request, res: Response) => {
   const { email } = req.body;
