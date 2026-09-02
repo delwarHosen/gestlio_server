@@ -46,6 +46,7 @@ model User {
   interventionZone       String?
   languages              String[] @default([])
   servicesOffered        String[] @default([])
+  assignments Assignment[] 
 
   // becomes true once the cleaner completes the mandatory
   // post-signup "setup profile" wizard (cannot be skipped)
@@ -56,9 +57,11 @@ model User {
 
   refreshTokens RefreshToken[]
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   accommodations Accommodation[]
+
+  isPaymentAccepted Boolean @default(false)
 
   @@map("users")
 }
@@ -90,7 +93,6 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
-
 // Create accommodation
 enum AccommodationType {
   APARTMENT
@@ -114,8 +116,11 @@ model Accommodation {
   doorCode          String?
   numberOfRooms     Int
   surface           Float?
-  hasElevator       Boolean @default(false)
+  hasElevator       Boolean           @default(false)
   cleaningRate      Float
+
+  checkOutDateTime    DateTime?
+  nextCheckinDateTime DateTime?
 
   notes        String?
   keys         String?
@@ -124,9 +129,48 @@ model Accommodation {
   frequency    String?
 
   photos String[] @default([])
-
+  assignments Assignment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("accommodations")
+  
+}
+
+
+// assignment model 
+
+enum AssignmentRole {
+  PRIMARY
+  SUBSTITUTE
+}
+
+enum AssignmentStatus {
+  PENDING
+  ACCEPTED
+  REFUSED
+  COMPLETED
+}
+
+model Assignment {
+  id String @id @default(uuid())
+
+  accommodationId String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  cleanerId String
+  cleaner   User   @relation(fields: [cleanerId], references: [id], onDelete: Cascade)
+
+  role             AssignmentRole   @default(SUBSTITUTE)
+  pricePerCleaning Float
+  message          String?
+  status           AssignmentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // A cleaner can only have ONE assignment record per accommodation -
+  // prevents accidentally sending the same invite twice.
+  @@unique([accommodationId, cleanerId])
+  @@map("assignments")
 }

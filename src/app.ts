@@ -4,6 +4,9 @@ import path from "path";
 import authRoutes from "./modules/auth/auth.routes";
 import profileRoutes from "./modules/profile/profile.routes";
 import accommodationRoutes from "./modules/accommodation/accommodation.routes";
+import cleanerRoutes from "./modules/cleaner/cleaner.routes";
+import paymentRoutes from "./modules/payment/payment.routes";
+import assignmentRoutes from "./modules/assignment/assignment.routes";
 
 import { errorMiddleware } from "./middlewares/error.middleware";
 
@@ -30,6 +33,15 @@ app.use("/api/v1/auth", profileRoutes);
 
 // Accommodation api endpoint
 app.use("/api/v1/accommodation", accommodationRoutes);
+
+// cleaner route by host
+app.use("/api/v1/cleaner", cleanerRoutes);
+
+// Assignment task to cleaner
+app.use("/api/v1/assignment", assignmentRoutes);
+
+//Payment routers
+app.use("/api/v1/payment", paymentRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

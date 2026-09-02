@@ -149,7 +149,8 @@ exports.Prisma.UserScalarFieldEnum = {
   isEmailVerified: 'isEmailVerified',
   isProfileComplete: 'isProfileComplete',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isPaymentAccepted: 'isPaymentAccepted'
 };
 
 exports.Prisma.OtpScalarFieldEnum = {
@@ -185,12 +186,26 @@ exports.Prisma.AccommodationScalarFieldEnum = {
   surface: 'surface',
   hasElevator: 'hasElevator',
   cleaningRate: 'cleaningRate',
+  checkOutDateTime: 'checkOutDateTime',
+  nextCheckinDateTime: 'nextCheckinDateTime',
   notes: 'notes',
   keys: 'keys',
   accessCode: 'accessCode',
   instructions: 'instructions',
   frequency: 'frequency',
   photos: 'photos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  accommodationId: 'accommodationId',
+  cleanerId: 'cleanerId',
+  role: 'role',
+  pricePerCleaning: 'pricePerCleaning',
+  message: 'message',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -228,11 +243,24 @@ exports.AccommodationType = exports.$Enums.AccommodationType = {
   OTHER: 'OTHER'
 };
 
+exports.AssignmentRole = exports.$Enums.AssignmentRole = {
+  PRIMARY: 'PRIMARY',
+  SUBSTITUTE: 'SUBSTITUTE'
+};
+
+exports.AssignmentStatus = exports.$Enums.AssignmentStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REFUSED: 'REFUSED',
+  COMPLETED: 'COMPLETED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Otp: 'Otp',
   RefreshToken: 'RefreshToken',
-  Accommodation: 'Accommodation'
+  Accommodation: 'Accommodation',
+  Assignment: 'Assignment'
 };
 
 /**

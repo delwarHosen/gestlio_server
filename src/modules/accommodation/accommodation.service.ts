@@ -14,6 +14,8 @@ interface CreateAccommodationInput {
   surface?: number;
   hasElevator?: boolean;
   cleaningRate: number;
+  checkOutDateTime?: Date;
+  nextCheckinDateTime?: Date;
   notes?: string;
   keys?: string;
   accessCode?: string;
@@ -50,6 +52,8 @@ async function createAccommodation(
       surface: data.surface,
       hasElevator: data.hasElevator ?? false,
       cleaningRate: data.cleaningRate,
+      checkOutDateTime: data.checkOutDateTime,
+      nextCheckinDateTime: data.nextCheckinDateTime,
       notes: data.notes,
       keys: data.keys,
       accessCode: data.accessCode,
@@ -147,6 +151,10 @@ async function updateAccommodation(
   if (data.hasElevator !== undefined) updateData.hasElevator = data.hasElevator;
   if (data.cleaningRate !== undefined)
     updateData.cleaningRate = data.cleaningRate;
+  if (data.checkOutDateTime !== undefined)
+    updateData.checkOutDateTime = data.checkOutDateTime;
+  if (data.nextCheckinDateTime !== undefined)
+    updateData.nextCheckinDateTime = data.nextCheckinDateTime;
   if (data.notes !== undefined) updateData.notes = data.notes;
   if (data.keys !== undefined) updateData.keys = data.keys;
   if (data.accessCode !== undefined) updateData.accessCode = data.accessCode;
@@ -162,8 +170,9 @@ async function updateAccommodation(
     where: { id },
     data: updateData,
   });
-}
 
+  return updatedAccommodation; 
+}
 
 // DELETE ACCOMMODATION
 async function deleteAccommodation(id: string, hostId: string) {
@@ -172,7 +181,6 @@ async function deleteAccommodation(id: string, hostId: string) {
 
   await prisma.accommodation.delete({ where: { id } });
 }
-
 
 export const accommodationService = {
   createAccommodation,

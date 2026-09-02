@@ -33,6 +33,11 @@ export type RefreshToken = $Result.DefaultSelection<Prisma.$RefreshTokenPayload>
  * 
  */
 export type Accommodation = $Result.DefaultSelection<Prisma.$AccommodationPayload>
+/**
+ * Model Assignment
+ * 
+ */
+export type Assignment = $Result.DefaultSelection<Prisma.$AssignmentPayload>
 
 /**
  * Enums
@@ -65,6 +70,24 @@ export const AccommodationType: {
 
 export type AccommodationType = (typeof AccommodationType)[keyof typeof AccommodationType]
 
+
+export const AssignmentRole: {
+  PRIMARY: 'PRIMARY',
+  SUBSTITUTE: 'SUBSTITUTE'
+};
+
+export type AssignmentRole = (typeof AssignmentRole)[keyof typeof AssignmentRole]
+
+
+export const AssignmentStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REFUSED: 'REFUSED',
+  COMPLETED: 'COMPLETED'
+};
+
+export type AssignmentStatus = (typeof AssignmentStatus)[keyof typeof AssignmentStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -78,6 +101,14 @@ export const OtpType: typeof $Enums.OtpType
 export type AccommodationType = $Enums.AccommodationType
 
 export const AccommodationType: typeof $Enums.AccommodationType
+
+export type AssignmentRole = $Enums.AssignmentRole
+
+export const AssignmentRole: typeof $Enums.AssignmentRole
+
+export type AssignmentStatus = $Enums.AssignmentStatus
+
+export const AssignmentStatus: typeof $Enums.AssignmentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -241,6 +272,16 @@ export class PrismaClient<
     * ```
     */
   get accommodation(): Prisma.AccommodationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assignment`: Exposes CRUD operations for the **Assignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Assignments
+    * const assignments = await prisma.assignment.findMany()
+    * ```
+    */
+  get assignment(): Prisma.AssignmentDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -685,7 +726,8 @@ export namespace Prisma {
     User: 'User',
     Otp: 'Otp',
     RefreshToken: 'RefreshToken',
-    Accommodation: 'Accommodation'
+    Accommodation: 'Accommodation',
+    Assignment: 'Assignment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -701,7 +743,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "otp" | "refreshToken" | "accommodation"
+      modelProps: "user" | "otp" | "refreshToken" | "accommodation" | "assignment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -985,6 +1027,76 @@ export namespace Prisma {
           }
         }
       }
+      Assignment: {
+        payload: Prisma.$AssignmentPayload<ExtArgs>
+        fields: Prisma.AssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.AssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.AssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.AssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.AssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          update: {
+            args: Prisma.AssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignment>
+          }
+          groupBy: {
+            args: Prisma.AssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1146,11 +1258,13 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    assignments: number
     refreshTokens: number
     accommodations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignments?: boolean | UserCountOutputTypeCountAssignmentsArgs
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
     accommodations?: boolean | UserCountOutputTypeCountAccommodationsArgs
   }
@@ -1169,6 +1283,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RefreshTokenWhereInput
   }
@@ -1178,6 +1299,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAccommodationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AccommodationWhereInput
+  }
+
+
+  /**
+   * Count Type AccommodationCountOutputType
+   */
+
+  export type AccommodationCountOutputType = {
+    assignments: number
+  }
+
+  export type AccommodationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignments?: boolean | AccommodationCountOutputTypeCountAssignmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AccommodationCountOutputType without action
+   */
+  export type AccommodationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccommodationCountOutputType
+     */
+    select?: AccommodationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AccommodationCountOutputType without action
+   */
+  export type AccommodationCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentWhereInput
   }
 
 
@@ -1235,6 +1387,7 @@ export namespace Prisma {
     isProfileComplete: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    isPaymentAccepted: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1263,6 +1416,7 @@ export namespace Prisma {
     isProfileComplete: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    isPaymentAccepted: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1293,6 +1447,7 @@ export namespace Prisma {
     isProfileComplete: number
     createdAt: number
     updatedAt: number
+    isPaymentAccepted: number
     _all: number
   }
 
@@ -1335,6 +1490,7 @@ export namespace Prisma {
     isProfileComplete?: true
     createdAt?: true
     updatedAt?: true
+    isPaymentAccepted?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1363,6 +1519,7 @@ export namespace Prisma {
     isProfileComplete?: true
     createdAt?: true
     updatedAt?: true
+    isPaymentAccepted?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1393,6 +1550,7 @@ export namespace Prisma {
     isProfileComplete?: true
     createdAt?: true
     updatedAt?: true
+    isPaymentAccepted?: true
     _all?: true
   }
 
@@ -1510,6 +1668,7 @@ export namespace Prisma {
     isProfileComplete: boolean
     createdAt: Date
     updatedAt: Date
+    isPaymentAccepted: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1559,6 +1718,8 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPaymentAccepted?: boolean
+    assignments?: boolean | User$assignmentsArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     accommodations?: boolean | User$accommodationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1592,6 +1753,7 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPaymentAccepted?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1622,9 +1784,11 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPaymentAccepted?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignments?: boolean | User$assignmentsArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     accommodations?: boolean | User$accommodationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1634,6 +1798,7 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      assignments: Prisma.$AssignmentPayload<ExtArgs>[]
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
       accommodations: Prisma.$AccommodationPayload<ExtArgs>[]
     }
@@ -1665,6 +1830,7 @@ export namespace Prisma {
       isProfileComplete: boolean
       createdAt: Date
       updatedAt: Date
+      isPaymentAccepted: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2029,6 +2195,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    assignments<T extends User$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany"> | Null>
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany"> | Null>
     accommodations<T extends User$accommodationsArgs<ExtArgs> = {}>(args?: Subset<T, User$accommodationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -2087,6 +2254,7 @@ export namespace Prisma {
     readonly isProfileComplete: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly isPaymentAccepted: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -2398,6 +2566,26 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
+  }
+
+  /**
+   * User.assignments
+   */
+  export type User$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    where?: AssignmentWhereInput
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    cursor?: AssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
   }
 
   /**
@@ -4340,6 +4528,8 @@ export namespace Prisma {
     surface: number | null
     hasElevator: boolean | null
     cleaningRate: number | null
+    checkOutDateTime: Date | null
+    nextCheckinDateTime: Date | null
     notes: string | null
     keys: string | null
     accessCode: string | null
@@ -4363,6 +4553,8 @@ export namespace Prisma {
     surface: number | null
     hasElevator: boolean | null
     cleaningRate: number | null
+    checkOutDateTime: Date | null
+    nextCheckinDateTime: Date | null
     notes: string | null
     keys: string | null
     accessCode: string | null
@@ -4386,6 +4578,8 @@ export namespace Prisma {
     surface: number
     hasElevator: number
     cleaningRate: number
+    checkOutDateTime: number
+    nextCheckinDateTime: number
     notes: number
     keys: number
     accessCode: number
@@ -4424,6 +4618,8 @@ export namespace Prisma {
     surface?: true
     hasElevator?: true
     cleaningRate?: true
+    checkOutDateTime?: true
+    nextCheckinDateTime?: true
     notes?: true
     keys?: true
     accessCode?: true
@@ -4447,6 +4643,8 @@ export namespace Prisma {
     surface?: true
     hasElevator?: true
     cleaningRate?: true
+    checkOutDateTime?: true
+    nextCheckinDateTime?: true
     notes?: true
     keys?: true
     accessCode?: true
@@ -4470,6 +4668,8 @@ export namespace Prisma {
     surface?: true
     hasElevator?: true
     cleaningRate?: true
+    checkOutDateTime?: true
+    nextCheckinDateTime?: true
     notes?: true
     keys?: true
     accessCode?: true
@@ -4581,6 +4781,8 @@ export namespace Prisma {
     surface: number | null
     hasElevator: boolean
     cleaningRate: number
+    checkOutDateTime: Date | null
+    nextCheckinDateTime: Date | null
     notes: string | null
     keys: string | null
     accessCode: string | null
@@ -4624,6 +4826,8 @@ export namespace Prisma {
     surface?: boolean
     hasElevator?: boolean
     cleaningRate?: boolean
+    checkOutDateTime?: boolean
+    nextCheckinDateTime?: boolean
     notes?: boolean
     keys?: boolean
     accessCode?: boolean
@@ -4633,6 +4837,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     host?: boolean | UserDefaultArgs<ExtArgs>
+    assignments?: boolean | Accommodation$assignmentsArgs<ExtArgs>
+    _count?: boolean | AccommodationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accommodation"]>
 
   export type AccommodationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4649,6 +4855,8 @@ export namespace Prisma {
     surface?: boolean
     hasElevator?: boolean
     cleaningRate?: boolean
+    checkOutDateTime?: boolean
+    nextCheckinDateTime?: boolean
     notes?: boolean
     keys?: boolean
     accessCode?: boolean
@@ -4674,6 +4882,8 @@ export namespace Prisma {
     surface?: boolean
     hasElevator?: boolean
     cleaningRate?: boolean
+    checkOutDateTime?: boolean
+    nextCheckinDateTime?: boolean
     notes?: boolean
     keys?: boolean
     accessCode?: boolean
@@ -4686,6 +4896,8 @@ export namespace Prisma {
 
   export type AccommodationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     host?: boolean | UserDefaultArgs<ExtArgs>
+    assignments?: boolean | Accommodation$assignmentsArgs<ExtArgs>
+    _count?: boolean | AccommodationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccommodationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     host?: boolean | UserDefaultArgs<ExtArgs>
@@ -4695,6 +4907,7 @@ export namespace Prisma {
     name: "Accommodation"
     objects: {
       host: Prisma.$UserPayload<ExtArgs>
+      assignments: Prisma.$AssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4710,6 +4923,8 @@ export namespace Prisma {
       surface: number | null
       hasElevator: boolean
       cleaningRate: number
+      checkOutDateTime: Date | null
+      nextCheckinDateTime: Date | null
       notes: string | null
       keys: string | null
       accessCode: string | null
@@ -5083,6 +5298,7 @@ export namespace Prisma {
   export interface Prisma__AccommodationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     host<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assignments<T extends Accommodation$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Accommodation$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5125,6 +5341,8 @@ export namespace Prisma {
     readonly surface: FieldRef<"Accommodation", 'Float'>
     readonly hasElevator: FieldRef<"Accommodation", 'Boolean'>
     readonly cleaningRate: FieldRef<"Accommodation", 'Float'>
+    readonly checkOutDateTime: FieldRef<"Accommodation", 'DateTime'>
+    readonly nextCheckinDateTime: FieldRef<"Accommodation", 'DateTime'>
     readonly notes: FieldRef<"Accommodation", 'String'>
     readonly keys: FieldRef<"Accommodation", 'String'>
     readonly accessCode: FieldRef<"Accommodation", 'String'>
@@ -5451,6 +5669,26 @@ export namespace Prisma {
   }
 
   /**
+   * Accommodation.assignments
+   */
+  export type Accommodation$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    where?: AssignmentWhereInput
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    cursor?: AssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
    * Accommodation without action
    */
   export type AccommodationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5462,6 +5700,1027 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AccommodationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Assignment
+   */
+
+  export type AggregateAssignment = {
+    _count: AssignmentCountAggregateOutputType | null
+    _avg: AssignmentAvgAggregateOutputType | null
+    _sum: AssignmentSumAggregateOutputType | null
+    _min: AssignmentMinAggregateOutputType | null
+    _max: AssignmentMaxAggregateOutputType | null
+  }
+
+  export type AssignmentAvgAggregateOutputType = {
+    pricePerCleaning: number | null
+  }
+
+  export type AssignmentSumAggregateOutputType = {
+    pricePerCleaning: number | null
+  }
+
+  export type AssignmentMinAggregateOutputType = {
+    id: string | null
+    accommodationId: string | null
+    cleanerId: string | null
+    role: $Enums.AssignmentRole | null
+    pricePerCleaning: number | null
+    message: string | null
+    status: $Enums.AssignmentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentMaxAggregateOutputType = {
+    id: string | null
+    accommodationId: string | null
+    cleanerId: string | null
+    role: $Enums.AssignmentRole | null
+    pricePerCleaning: number | null
+    message: string | null
+    status: $Enums.AssignmentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentCountAggregateOutputType = {
+    id: number
+    accommodationId: number
+    cleanerId: number
+    role: number
+    pricePerCleaning: number
+    message: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssignmentAvgAggregateInputType = {
+    pricePerCleaning?: true
+  }
+
+  export type AssignmentSumAggregateInputType = {
+    pricePerCleaning?: true
+  }
+
+  export type AssignmentMinAggregateInputType = {
+    id?: true
+    accommodationId?: true
+    cleanerId?: true
+    role?: true
+    pricePerCleaning?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentMaxAggregateInputType = {
+    id?: true
+    accommodationId?: true
+    cleanerId?: true
+    role?: true
+    pricePerCleaning?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentCountAggregateInputType = {
+    id?: true
+    accommodationId?: true
+    cleanerId?: true
+    role?: true
+    pricePerCleaning?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assignment to aggregate.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Assignments
+    **/
+    _count?: true | AssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssignmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssignmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignmentMaxAggregateInputType
+  }
+
+  export type GetAssignmentAggregateType<T extends AssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignment[P]>
+      : GetScalarType<T[P], AggregateAssignment[P]>
+  }
+
+
+
+
+  export type AssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentWhereInput
+    orderBy?: AssignmentOrderByWithAggregationInput | AssignmentOrderByWithAggregationInput[]
+    by: AssignmentScalarFieldEnum[] | AssignmentScalarFieldEnum
+    having?: AssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignmentCountAggregateInputType | true
+    _avg?: AssignmentAvgAggregateInputType
+    _sum?: AssignmentSumAggregateInputType
+    _min?: AssignmentMinAggregateInputType
+    _max?: AssignmentMaxAggregateInputType
+  }
+
+  export type AssignmentGroupByOutputType = {
+    id: string
+    accommodationId: string
+    cleanerId: string
+    role: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message: string | null
+    status: $Enums.AssignmentStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: AssignmentCountAggregateOutputType | null
+    _avg: AssignmentAvgAggregateOutputType | null
+    _sum: AssignmentSumAggregateOutputType | null
+    _min: AssignmentMinAggregateOutputType | null
+    _max: AssignmentMaxAggregateOutputType | null
+  }
+
+  type GetAssignmentGroupByPayload<T extends AssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accommodationId?: boolean
+    cleanerId?: boolean
+    role?: boolean
+    pricePerCleaning?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    accommodation?: boolean | AccommodationDefaultArgs<ExtArgs>
+    cleaner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignment"]>
+
+  export type AssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accommodationId?: boolean
+    cleanerId?: boolean
+    role?: boolean
+    pricePerCleaning?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    accommodation?: boolean | AccommodationDefaultArgs<ExtArgs>
+    cleaner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignment"]>
+
+  export type AssignmentSelectScalar = {
+    id?: boolean
+    accommodationId?: boolean
+    cleanerId?: boolean
+    role?: boolean
+    pricePerCleaning?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accommodation?: boolean | AccommodationDefaultArgs<ExtArgs>
+    cleaner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accommodation?: boolean | AccommodationDefaultArgs<ExtArgs>
+    cleaner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Assignment"
+    objects: {
+      accommodation: Prisma.$AccommodationPayload<ExtArgs>
+      cleaner: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accommodationId: string
+      cleanerId: string
+      role: $Enums.AssignmentRole
+      pricePerCleaning: number
+      message: string | null
+      status: $Enums.AssignmentStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assignment"]>
+    composites: {}
+  }
+
+  type AssignmentGetPayload<S extends boolean | null | undefined | AssignmentDefaultArgs> = $Result.GetResult<Prisma.$AssignmentPayload, S>
+
+  type AssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssignmentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssignmentCountAggregateInputType | true
+    }
+
+  export interface AssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Assignment'], meta: { name: 'Assignment' } }
+    /**
+     * Find zero or one Assignment that matches the filter.
+     * @param {AssignmentFindUniqueArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignmentFindUniqueArgs>(args: SelectSubset<T, AssignmentFindUniqueArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Assignment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssignmentFindUniqueOrThrowArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Assignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFindFirstArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignmentFindFirstArgs>(args?: SelectSubset<T, AssignmentFindFirstArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Assignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFindFirstOrThrowArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Assignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Assignments
+     * const assignments = await prisma.assignment.findMany()
+     * 
+     * // Get first 10 Assignments
+     * const assignments = await prisma.assignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignmentWithIdOnly = await prisma.assignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignmentFindManyArgs>(args?: SelectSubset<T, AssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Assignment.
+     * @param {AssignmentCreateArgs} args - Arguments to create a Assignment.
+     * @example
+     * // Create one Assignment
+     * const Assignment = await prisma.assignment.create({
+     *   data: {
+     *     // ... data to create a Assignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignmentCreateArgs>(args: SelectSubset<T, AssignmentCreateArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Assignments.
+     * @param {AssignmentCreateManyArgs} args - Arguments to create many Assignments.
+     * @example
+     * // Create many Assignments
+     * const assignment = await prisma.assignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignmentCreateManyArgs>(args?: SelectSubset<T, AssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Assignments and returns the data saved in the database.
+     * @param {AssignmentCreateManyAndReturnArgs} args - Arguments to create many Assignments.
+     * @example
+     * // Create many Assignments
+     * const assignment = await prisma.assignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Assignments and only return the `id`
+     * const assignmentWithIdOnly = await prisma.assignment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Assignment.
+     * @param {AssignmentDeleteArgs} args - Arguments to delete one Assignment.
+     * @example
+     * // Delete one Assignment
+     * const Assignment = await prisma.assignment.delete({
+     *   where: {
+     *     // ... filter to delete one Assignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignmentDeleteArgs>(args: SelectSubset<T, AssignmentDeleteArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Assignment.
+     * @param {AssignmentUpdateArgs} args - Arguments to update one Assignment.
+     * @example
+     * // Update one Assignment
+     * const assignment = await prisma.assignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignmentUpdateArgs>(args: SelectSubset<T, AssignmentUpdateArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Assignments.
+     * @param {AssignmentDeleteManyArgs} args - Arguments to filter Assignments to delete.
+     * @example
+     * // Delete a few Assignments
+     * const { count } = await prisma.assignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignmentDeleteManyArgs>(args?: SelectSubset<T, AssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Assignments
+     * const assignment = await prisma.assignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignmentUpdateManyArgs>(args: SelectSubset<T, AssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Assignment.
+     * @param {AssignmentUpsertArgs} args - Arguments to update or create a Assignment.
+     * @example
+     * // Update or create a Assignment
+     * const assignment = await prisma.assignment.upsert({
+     *   create: {
+     *     // ... data to create a Assignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Assignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignmentUpsertArgs>(args: SelectSubset<T, AssignmentUpsertArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Assignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentCountArgs} args - Arguments to filter Assignments to count.
+     * @example
+     * // Count the number of Assignments
+     * const count = await prisma.assignment.count({
+     *   where: {
+     *     // ... the filter for the Assignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignmentCountArgs>(
+      args?: Subset<T, AssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Assignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignmentAggregateArgs>(args: Subset<T, AssignmentAggregateArgs>): Prisma.PrismaPromise<GetAssignmentAggregateType<T>>
+
+    /**
+     * Group by Assignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: AssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Assignment model
+   */
+  readonly fields: AssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Assignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    accommodation<T extends AccommodationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccommodationDefaultArgs<ExtArgs>>): Prisma__AccommodationClient<$Result.GetResult<Prisma.$AccommodationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    cleaner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Assignment model
+   */ 
+  interface AssignmentFieldRefs {
+    readonly id: FieldRef<"Assignment", 'String'>
+    readonly accommodationId: FieldRef<"Assignment", 'String'>
+    readonly cleanerId: FieldRef<"Assignment", 'String'>
+    readonly role: FieldRef<"Assignment", 'AssignmentRole'>
+    readonly pricePerCleaning: FieldRef<"Assignment", 'Float'>
+    readonly message: FieldRef<"Assignment", 'String'>
+    readonly status: FieldRef<"Assignment", 'AssignmentStatus'>
+    readonly createdAt: FieldRef<"Assignment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Assignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Assignment findUnique
+   */
+  export type AssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment findUniqueOrThrow
+   */
+  export type AssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment findFirst
+   */
+  export type AssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assignments.
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assignments.
+     */
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment findFirstOrThrow
+   */
+  export type AssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assignments.
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assignments.
+     */
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment findMany
+   */
+  export type AssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignments to fetch.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Assignments.
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment create
+   */
+  export type AssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Assignment.
+     */
+    data: XOR<AssignmentCreateInput, AssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * Assignment createMany
+   */
+  export type AssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Assignments.
+     */
+    data: AssignmentCreateManyInput | AssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Assignment createManyAndReturn
+   */
+  export type AssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Assignments.
+     */
+    data: AssignmentCreateManyInput | AssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Assignment update
+   */
+  export type AssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Assignment.
+     */
+    data: XOR<AssignmentUpdateInput, AssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which Assignment to update.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment updateMany
+   */
+  export type AssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Assignments.
+     */
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Assignments to update
+     */
+    where?: AssignmentWhereInput
+  }
+
+  /**
+   * Assignment upsert
+   */
+  export type AssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Assignment to update in case it exists.
+     */
+    where: AssignmentWhereUniqueInput
+    /**
+     * In case the Assignment found by the `where` argument doesn't exist, create a new Assignment with this data.
+     */
+    create: XOR<AssignmentCreateInput, AssignmentUncheckedCreateInput>
+    /**
+     * In case the Assignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignmentUpdateInput, AssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Assignment delete
+   */
+  export type AssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which Assignment to delete.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment deleteMany
+   */
+  export type AssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assignments to delete
+     */
+    where?: AssignmentWhereInput
+  }
+
+  /**
+   * Assignment without action
+   */
+  export type AssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
   }
 
 
@@ -5506,7 +6765,8 @@ export namespace Prisma {
     isEmailVerified: 'isEmailVerified',
     isProfileComplete: 'isProfileComplete',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    isPaymentAccepted: 'isPaymentAccepted'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -5551,6 +6811,8 @@ export namespace Prisma {
     surface: 'surface',
     hasElevator: 'hasElevator',
     cleaningRate: 'cleaningRate',
+    checkOutDateTime: 'checkOutDateTime',
+    nextCheckinDateTime: 'nextCheckinDateTime',
     notes: 'notes',
     keys: 'keys',
     accessCode: 'accessCode',
@@ -5562,6 +6824,21 @@ export namespace Prisma {
   };
 
   export type AccommodationScalarFieldEnum = (typeof AccommodationScalarFieldEnum)[keyof typeof AccommodationScalarFieldEnum]
+
+
+  export const AssignmentScalarFieldEnum: {
+    id: 'id',
+    accommodationId: 'accommodationId',
+    cleanerId: 'cleanerId',
+    role: 'role',
+    pricePerCleaning: 'pricePerCleaning',
+    message: 'message',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5696,6 +6973,34 @@ export namespace Prisma {
    */
   export type ListEnumAccommodationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccommodationType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'AssignmentRole'
+   */
+  export type EnumAssignmentRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssignmentRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssignmentRole[]'
+   */
+  export type ListEnumAssignmentRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssignmentRole[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssignmentStatus'
+   */
+  export type EnumAssignmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssignmentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssignmentStatus[]'
+   */
+  export type ListEnumAssignmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssignmentStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -5732,6 +7037,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    isPaymentAccepted?: BoolFilter<"User"> | boolean
+    assignments?: AssignmentListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     accommodations?: AccommodationListRelationFilter
   }
@@ -5764,6 +7071,8 @@ export namespace Prisma {
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPaymentAccepted?: SortOrder
+    assignments?: AssignmentOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     accommodations?: AccommodationOrderByRelationAggregateInput
   }
@@ -5799,6 +7108,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    isPaymentAccepted?: BoolFilter<"User"> | boolean
+    assignments?: AssignmentListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     accommodations?: AccommodationListRelationFilter
   }, "id" | "email">
@@ -5831,6 +7142,7 @@ export namespace Prisma {
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPaymentAccepted?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -5869,6 +7181,7 @@ export namespace Prisma {
     isProfileComplete?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    isPaymentAccepted?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type OtpWhereInput = {
@@ -6010,6 +7323,8 @@ export namespace Prisma {
     surface?: FloatNullableFilter<"Accommodation"> | number | null
     hasElevator?: BoolFilter<"Accommodation"> | boolean
     cleaningRate?: FloatFilter<"Accommodation"> | number
+    checkOutDateTime?: DateTimeNullableFilter<"Accommodation"> | Date | string | null
+    nextCheckinDateTime?: DateTimeNullableFilter<"Accommodation"> | Date | string | null
     notes?: StringNullableFilter<"Accommodation"> | string | null
     keys?: StringNullableFilter<"Accommodation"> | string | null
     accessCode?: StringNullableFilter<"Accommodation"> | string | null
@@ -6019,6 +7334,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Accommodation"> | Date | string
     updatedAt?: DateTimeFilter<"Accommodation"> | Date | string
     host?: XOR<UserRelationFilter, UserWhereInput>
+    assignments?: AssignmentListRelationFilter
   }
 
   export type AccommodationOrderByWithRelationInput = {
@@ -6035,6 +7351,8 @@ export namespace Prisma {
     surface?: SortOrderInput | SortOrder
     hasElevator?: SortOrder
     cleaningRate?: SortOrder
+    checkOutDateTime?: SortOrderInput | SortOrder
+    nextCheckinDateTime?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     keys?: SortOrderInput | SortOrder
     accessCode?: SortOrderInput | SortOrder
@@ -6044,6 +7362,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     host?: UserOrderByWithRelationInput
+    assignments?: AssignmentOrderByRelationAggregateInput
   }
 
   export type AccommodationWhereUniqueInput = Prisma.AtLeast<{
@@ -6063,6 +7382,8 @@ export namespace Prisma {
     surface?: FloatNullableFilter<"Accommodation"> | number | null
     hasElevator?: BoolFilter<"Accommodation"> | boolean
     cleaningRate?: FloatFilter<"Accommodation"> | number
+    checkOutDateTime?: DateTimeNullableFilter<"Accommodation"> | Date | string | null
+    nextCheckinDateTime?: DateTimeNullableFilter<"Accommodation"> | Date | string | null
     notes?: StringNullableFilter<"Accommodation"> | string | null
     keys?: StringNullableFilter<"Accommodation"> | string | null
     accessCode?: StringNullableFilter<"Accommodation"> | string | null
@@ -6072,6 +7393,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Accommodation"> | Date | string
     updatedAt?: DateTimeFilter<"Accommodation"> | Date | string
     host?: XOR<UserRelationFilter, UserWhereInput>
+    assignments?: AssignmentListRelationFilter
   }, "id">
 
   export type AccommodationOrderByWithAggregationInput = {
@@ -6088,6 +7410,8 @@ export namespace Prisma {
     surface?: SortOrderInput | SortOrder
     hasElevator?: SortOrder
     cleaningRate?: SortOrder
+    checkOutDateTime?: SortOrderInput | SortOrder
+    nextCheckinDateTime?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     keys?: SortOrderInput | SortOrder
     accessCode?: SortOrderInput | SortOrder
@@ -6120,6 +7444,8 @@ export namespace Prisma {
     surface?: FloatNullableWithAggregatesFilter<"Accommodation"> | number | null
     hasElevator?: BoolWithAggregatesFilter<"Accommodation"> | boolean
     cleaningRate?: FloatWithAggregatesFilter<"Accommodation"> | number
+    checkOutDateTime?: DateTimeNullableWithAggregatesFilter<"Accommodation"> | Date | string | null
+    nextCheckinDateTime?: DateTimeNullableWithAggregatesFilter<"Accommodation"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
     keys?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
     accessCode?: StringNullableWithAggregatesFilter<"Accommodation"> | string | null
@@ -6128,6 +7454,87 @@ export namespace Prisma {
     photos?: StringNullableListFilter<"Accommodation">
     createdAt?: DateTimeWithAggregatesFilter<"Accommodation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Accommodation"> | Date | string
+  }
+
+  export type AssignmentWhereInput = {
+    AND?: AssignmentWhereInput | AssignmentWhereInput[]
+    OR?: AssignmentWhereInput[]
+    NOT?: AssignmentWhereInput | AssignmentWhereInput[]
+    id?: StringFilter<"Assignment"> | string
+    accommodationId?: StringFilter<"Assignment"> | string
+    cleanerId?: StringFilter<"Assignment"> | string
+    role?: EnumAssignmentRoleFilter<"Assignment"> | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFilter<"Assignment"> | number
+    message?: StringNullableFilter<"Assignment"> | string | null
+    status?: EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
+    accommodation?: XOR<AccommodationRelationFilter, AccommodationWhereInput>
+    cleaner?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    accommodationId?: SortOrder
+    cleanerId?: SortOrder
+    role?: SortOrder
+    pricePerCleaning?: SortOrder
+    message?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    accommodation?: AccommodationOrderByWithRelationInput
+    cleaner?: UserOrderByWithRelationInput
+  }
+
+  export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accommodationId_cleanerId?: AssignmentAccommodationIdCleanerIdCompoundUniqueInput
+    AND?: AssignmentWhereInput | AssignmentWhereInput[]
+    OR?: AssignmentWhereInput[]
+    NOT?: AssignmentWhereInput | AssignmentWhereInput[]
+    accommodationId?: StringFilter<"Assignment"> | string
+    cleanerId?: StringFilter<"Assignment"> | string
+    role?: EnumAssignmentRoleFilter<"Assignment"> | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFilter<"Assignment"> | number
+    message?: StringNullableFilter<"Assignment"> | string | null
+    status?: EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
+    accommodation?: XOR<AccommodationRelationFilter, AccommodationWhereInput>
+    cleaner?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "accommodationId_cleanerId">
+
+  export type AssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    accommodationId?: SortOrder
+    cleanerId?: SortOrder
+    role?: SortOrder
+    pricePerCleaning?: SortOrder
+    message?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssignmentCountOrderByAggregateInput
+    _avg?: AssignmentAvgOrderByAggregateInput
+    _max?: AssignmentMaxOrderByAggregateInput
+    _min?: AssignmentMinOrderByAggregateInput
+    _sum?: AssignmentSumOrderByAggregateInput
+  }
+
+  export type AssignmentScalarWhereWithAggregatesInput = {
+    AND?: AssignmentScalarWhereWithAggregatesInput | AssignmentScalarWhereWithAggregatesInput[]
+    OR?: AssignmentScalarWhereWithAggregatesInput[]
+    NOT?: AssignmentScalarWhereWithAggregatesInput | AssignmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Assignment"> | string
+    accommodationId?: StringWithAggregatesFilter<"Assignment"> | string
+    cleanerId?: StringWithAggregatesFilter<"Assignment"> | string
+    role?: EnumAssignmentRoleWithAggregatesFilter<"Assignment"> | $Enums.AssignmentRole
+    pricePerCleaning?: FloatWithAggregatesFilter<"Assignment"> | number
+    message?: StringNullableWithAggregatesFilter<"Assignment"> | string | null
+    status?: EnumAssignmentStatusWithAggregatesFilter<"Assignment"> | $Enums.AssignmentStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -6158,6 +7565,8 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    assignments?: AssignmentCreateNestedManyWithoutCleanerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     accommodations?: AccommodationCreateNestedManyWithoutHostInput
   }
@@ -6190,6 +7599,8 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutCleanerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     accommodations?: AccommodationUncheckedCreateNestedManyWithoutHostInput
   }
@@ -6222,6 +7633,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    assignments?: AssignmentUpdateManyWithoutCleanerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     accommodations?: AccommodationUpdateManyWithoutHostNestedInput
   }
@@ -6254,6 +7667,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    assignments?: AssignmentUncheckedUpdateManyWithoutCleanerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     accommodations?: AccommodationUncheckedUpdateManyWithoutHostNestedInput
   }
@@ -6286,6 +7701,7 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -6316,6 +7732,7 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -6346,6 +7763,7 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OtpCreateInput = {
@@ -6493,6 +7911,8 @@ export namespace Prisma {
     surface?: number | null
     hasElevator?: boolean
     cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
     notes?: string | null
     keys?: string | null
     accessCode?: string | null
@@ -6502,6 +7922,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     host: UserCreateNestedOneWithoutAccommodationsInput
+    assignments?: AssignmentCreateNestedManyWithoutAccommodationInput
   }
 
   export type AccommodationUncheckedCreateInput = {
@@ -6518,6 +7939,8 @@ export namespace Prisma {
     surface?: number | null
     hasElevator?: boolean
     cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
     notes?: string | null
     keys?: string | null
     accessCode?: string | null
@@ -6526,6 +7949,7 @@ export namespace Prisma {
     photos?: AccommodationCreatephotosInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutAccommodationInput
   }
 
   export type AccommodationUpdateInput = {
@@ -6541,6 +7965,8 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6550,6 +7976,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: UserUpdateOneRequiredWithoutAccommodationsNestedInput
+    assignments?: AssignmentUpdateManyWithoutAccommodationNestedInput
   }
 
   export type AccommodationUncheckedUpdateInput = {
@@ -6566,6 +7993,8 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6574,6 +8003,7 @@ export namespace Prisma {
     photos?: AccommodationUpdatephotosInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: AssignmentUncheckedUpdateManyWithoutAccommodationNestedInput
   }
 
   export type AccommodationCreateManyInput = {
@@ -6590,6 +8020,8 @@ export namespace Prisma {
     surface?: number | null
     hasElevator?: boolean
     cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
     notes?: string | null
     keys?: string | null
     accessCode?: string | null
@@ -6613,6 +8045,8 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6637,12 +8071,96 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
     instructions?: NullableStringFieldUpdateOperationsInput | string | null
     frequency?: NullableStringFieldUpdateOperationsInput | string | null
     photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentCreateInput = {
+    id?: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accommodation: AccommodationCreateNestedOneWithoutAssignmentsInput
+    cleaner: UserCreateNestedOneWithoutAssignmentsInput
+  }
+
+  export type AssignmentUncheckedCreateInput = {
+    id?: string
+    accommodationId: string
+    cleanerId: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accommodation?: AccommodationUpdateOneRequiredWithoutAssignmentsNestedInput
+    cleaner?: UserUpdateOneRequiredWithoutAssignmentsNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accommodationId?: StringFieldUpdateOperationsInput | string
+    cleanerId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentCreateManyInput = {
+    id?: string
+    accommodationId: string
+    cleanerId: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accommodationId?: StringFieldUpdateOperationsInput | string
+    cleanerId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6730,6 +8248,12 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type AssignmentListRelationFilter = {
+    every?: AssignmentWhereInput
+    some?: AssignmentWhereInput
+    none?: AssignmentWhereInput
+  }
+
   export type RefreshTokenListRelationFilter = {
     every?: RefreshTokenWhereInput
     some?: RefreshTokenWhereInput
@@ -6745,6 +8269,10 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type AssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type RefreshTokenOrderByRelationAggregateInput = {
@@ -6783,6 +8311,7 @@ export namespace Prisma {
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPaymentAccepted?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -6817,6 +8346,7 @@ export namespace Prisma {
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPaymentAccepted?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -6845,6 +8375,7 @@ export namespace Prisma {
     isProfileComplete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPaymentAccepted?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -7061,6 +8592,17 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type AccommodationCountOrderByAggregateInput = {
     id?: SortOrder
     hostId?: SortOrder
@@ -7075,6 +8617,8 @@ export namespace Prisma {
     surface?: SortOrder
     hasElevator?: SortOrder
     cleaningRate?: SortOrder
+    checkOutDateTime?: SortOrder
+    nextCheckinDateTime?: SortOrder
     notes?: SortOrder
     keys?: SortOrder
     accessCode?: SortOrder
@@ -7105,6 +8649,8 @@ export namespace Prisma {
     surface?: SortOrder
     hasElevator?: SortOrder
     cleaningRate?: SortOrder
+    checkOutDateTime?: SortOrder
+    nextCheckinDateTime?: SortOrder
     notes?: SortOrder
     keys?: SortOrder
     accessCode?: SortOrder
@@ -7128,6 +8674,8 @@ export namespace Prisma {
     surface?: SortOrder
     hasElevator?: SortOrder
     cleaningRate?: SortOrder
+    checkOutDateTime?: SortOrder
+    nextCheckinDateTime?: SortOrder
     notes?: SortOrder
     keys?: SortOrder
     accessCode?: SortOrder
@@ -7185,12 +8733,121 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAssignmentRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentRole | EnumAssignmentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentRoleFilter<$PrismaModel> | $Enums.AssignmentRole
+  }
+
+  export type EnumAssignmentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentStatus | EnumAssignmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentStatusFilter<$PrismaModel> | $Enums.AssignmentStatus
+  }
+
+  export type AccommodationRelationFilter = {
+    is?: AccommodationWhereInput
+    isNot?: AccommodationWhereInput
+  }
+
+  export type AssignmentAccommodationIdCleanerIdCompoundUniqueInput = {
+    accommodationId: string
+    cleanerId: string
+  }
+
+  export type AssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    accommodationId?: SortOrder
+    cleanerId?: SortOrder
+    role?: SortOrder
+    pricePerCleaning?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentAvgOrderByAggregateInput = {
+    pricePerCleaning?: SortOrder
+  }
+
+  export type AssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accommodationId?: SortOrder
+    cleanerId?: SortOrder
+    role?: SortOrder
+    pricePerCleaning?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    accommodationId?: SortOrder
+    cleanerId?: SortOrder
+    role?: SortOrder
+    pricePerCleaning?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentSumOrderByAggregateInput = {
+    pricePerCleaning?: SortOrder
+  }
+
+  export type EnumAssignmentRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentRole | EnumAssignmentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentRoleWithAggregatesFilter<$PrismaModel> | $Enums.AssignmentRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssignmentRoleFilter<$PrismaModel>
+    _max?: NestedEnumAssignmentRoleFilter<$PrismaModel>
+  }
+
+  export type EnumAssignmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentStatus | EnumAssignmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.AssignmentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssignmentStatusFilter<$PrismaModel>
+    _max?: NestedEnumAssignmentStatusFilter<$PrismaModel>
+  }
+
   export type UserCreatelanguagesInput = {
     set: string[]
   }
 
   export type UserCreateservicesOfferedInput = {
     set: string[]
+  }
+
+  export type AssignmentCreateNestedManyWithoutCleanerInput = {
+    create?: XOR<AssignmentCreateWithoutCleanerInput, AssignmentUncheckedCreateWithoutCleanerInput> | AssignmentCreateWithoutCleanerInput[] | AssignmentUncheckedCreateWithoutCleanerInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutCleanerInput | AssignmentCreateOrConnectWithoutCleanerInput[]
+    createMany?: AssignmentCreateManyCleanerInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
   }
 
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
@@ -7205,6 +8862,13 @@ export namespace Prisma {
     connectOrCreate?: AccommodationCreateOrConnectWithoutHostInput | AccommodationCreateOrConnectWithoutHostInput[]
     createMany?: AccommodationCreateManyHostInputEnvelope
     connect?: AccommodationWhereUniqueInput | AccommodationWhereUniqueInput[]
+  }
+
+  export type AssignmentUncheckedCreateNestedManyWithoutCleanerInput = {
+    create?: XOR<AssignmentCreateWithoutCleanerInput, AssignmentUncheckedCreateWithoutCleanerInput> | AssignmentCreateWithoutCleanerInput[] | AssignmentUncheckedCreateWithoutCleanerInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutCleanerInput | AssignmentCreateOrConnectWithoutCleanerInput[]
+    createMany?: AssignmentCreateManyCleanerInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
   }
 
   export type RefreshTokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -7267,6 +8931,20 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type AssignmentUpdateManyWithoutCleanerNestedInput = {
+    create?: XOR<AssignmentCreateWithoutCleanerInput, AssignmentUncheckedCreateWithoutCleanerInput> | AssignmentCreateWithoutCleanerInput[] | AssignmentUncheckedCreateWithoutCleanerInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutCleanerInput | AssignmentCreateOrConnectWithoutCleanerInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutCleanerInput | AssignmentUpsertWithWhereUniqueWithoutCleanerInput[]
+    createMany?: AssignmentCreateManyCleanerInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutCleanerInput | AssignmentUpdateWithWhereUniqueWithoutCleanerInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutCleanerInput | AssignmentUpdateManyWithWhereWithoutCleanerInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+  }
+
   export type RefreshTokenUpdateManyWithoutUserNestedInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -7293,6 +8971,20 @@ export namespace Prisma {
     update?: AccommodationUpdateWithWhereUniqueWithoutHostInput | AccommodationUpdateWithWhereUniqueWithoutHostInput[]
     updateMany?: AccommodationUpdateManyWithWhereWithoutHostInput | AccommodationUpdateManyWithWhereWithoutHostInput[]
     deleteMany?: AccommodationScalarWhereInput | AccommodationScalarWhereInput[]
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutCleanerNestedInput = {
+    create?: XOR<AssignmentCreateWithoutCleanerInput, AssignmentUncheckedCreateWithoutCleanerInput> | AssignmentCreateWithoutCleanerInput[] | AssignmentUncheckedCreateWithoutCleanerInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutCleanerInput | AssignmentCreateOrConnectWithoutCleanerInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutCleanerInput | AssignmentUpsertWithWhereUniqueWithoutCleanerInput[]
+    createMany?: AssignmentCreateManyCleanerInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutCleanerInput | AssignmentUpdateWithWhereUniqueWithoutCleanerInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutCleanerInput | AssignmentUpdateManyWithWhereWithoutCleanerInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
   }
 
   export type RefreshTokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -7351,6 +9043,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AssignmentCreateNestedManyWithoutAccommodationInput = {
+    create?: XOR<AssignmentCreateWithoutAccommodationInput, AssignmentUncheckedCreateWithoutAccommodationInput> | AssignmentCreateWithoutAccommodationInput[] | AssignmentUncheckedCreateWithoutAccommodationInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAccommodationInput | AssignmentCreateOrConnectWithoutAccommodationInput[]
+    createMany?: AssignmentCreateManyAccommodationInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+  }
+
+  export type AssignmentUncheckedCreateNestedManyWithoutAccommodationInput = {
+    create?: XOR<AssignmentCreateWithoutAccommodationInput, AssignmentUncheckedCreateWithoutAccommodationInput> | AssignmentCreateWithoutAccommodationInput[] | AssignmentUncheckedCreateWithoutAccommodationInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAccommodationInput | AssignmentCreateOrConnectWithoutAccommodationInput[]
+    createMany?: AssignmentCreateManyAccommodationInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+  }
+
   export type EnumAccommodationTypeFieldUpdateOperationsInput = {
     set?: $Enums.AccommodationType
   }
@@ -7371,6 +9077,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type AccommodationUpdatephotosInput = {
     set?: string[]
     push?: string | string[]
@@ -7382,6 +9092,70 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAccommodationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccommodationsInput, UserUpdateWithoutAccommodationsInput>, UserUncheckedUpdateWithoutAccommodationsInput>
+  }
+
+  export type AssignmentUpdateManyWithoutAccommodationNestedInput = {
+    create?: XOR<AssignmentCreateWithoutAccommodationInput, AssignmentUncheckedCreateWithoutAccommodationInput> | AssignmentCreateWithoutAccommodationInput[] | AssignmentUncheckedCreateWithoutAccommodationInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAccommodationInput | AssignmentCreateOrConnectWithoutAccommodationInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutAccommodationInput | AssignmentUpsertWithWhereUniqueWithoutAccommodationInput[]
+    createMany?: AssignmentCreateManyAccommodationInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutAccommodationInput | AssignmentUpdateWithWhereUniqueWithoutAccommodationInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutAccommodationInput | AssignmentUpdateManyWithWhereWithoutAccommodationInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutAccommodationNestedInput = {
+    create?: XOR<AssignmentCreateWithoutAccommodationInput, AssignmentUncheckedCreateWithoutAccommodationInput> | AssignmentCreateWithoutAccommodationInput[] | AssignmentUncheckedCreateWithoutAccommodationInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAccommodationInput | AssignmentCreateOrConnectWithoutAccommodationInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutAccommodationInput | AssignmentUpsertWithWhereUniqueWithoutAccommodationInput[]
+    createMany?: AssignmentCreateManyAccommodationInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutAccommodationInput | AssignmentUpdateWithWhereUniqueWithoutAccommodationInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutAccommodationInput | AssignmentUpdateManyWithWhereWithoutAccommodationInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+  }
+
+  export type AccommodationCreateNestedOneWithoutAssignmentsInput = {
+    create?: XOR<AccommodationCreateWithoutAssignmentsInput, AccommodationUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: AccommodationCreateOrConnectWithoutAssignmentsInput
+    connect?: AccommodationWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAssignmentsInput = {
+    create?: XOR<UserCreateWithoutAssignmentsInput, UserUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignmentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumAssignmentRoleFieldUpdateOperationsInput = {
+    set?: $Enums.AssignmentRole
+  }
+
+  export type EnumAssignmentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AssignmentStatus
+  }
+
+  export type AccommodationUpdateOneRequiredWithoutAssignmentsNestedInput = {
+    create?: XOR<AccommodationCreateWithoutAssignmentsInput, AccommodationUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: AccommodationCreateOrConnectWithoutAssignmentsInput
+    upsert?: AccommodationUpsertWithoutAssignmentsInput
+    connect?: AccommodationWhereUniqueInput
+    update?: XOR<XOR<AccommodationUpdateToOneWithWhereWithoutAssignmentsInput, AccommodationUpdateWithoutAssignmentsInput>, AccommodationUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAssignmentsNestedInput = {
+    create?: XOR<UserCreateWithoutAssignmentsInput, UserUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignmentsInput
+    upsert?: UserUpsertWithoutAssignmentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssignmentsInput, UserUpdateWithoutAssignmentsInput>, UserUncheckedUpdateWithoutAssignmentsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7601,6 +9375,17 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumAccommodationTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.AccommodationType | EnumAccommodationTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AccommodationType[] | ListEnumAccommodationTypeFieldRefInput<$PrismaModel>
@@ -7643,6 +9428,86 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAssignmentRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentRole | EnumAssignmentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentRoleFilter<$PrismaModel> | $Enums.AssignmentRole
+  }
+
+  export type NestedEnumAssignmentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentStatus | EnumAssignmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentStatusFilter<$PrismaModel> | $Enums.AssignmentStatus
+  }
+
+  export type NestedEnumAssignmentRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentRole | EnumAssignmentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentRole[] | ListEnumAssignmentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentRoleWithAggregatesFilter<$PrismaModel> | $Enums.AssignmentRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssignmentRoleFilter<$PrismaModel>
+    _max?: NestedEnumAssignmentRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAssignmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssignmentStatus | EnumAssignmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssignmentStatus[] | ListEnumAssignmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssignmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.AssignmentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssignmentStatusFilter<$PrismaModel>
+    _max?: NestedEnumAssignmentStatusFilter<$PrismaModel>
+  }
+
+  export type AssignmentCreateWithoutCleanerInput = {
+    id?: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accommodation: AccommodationCreateNestedOneWithoutAssignmentsInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutCleanerInput = {
+    id?: string
+    accommodationId: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentCreateOrConnectWithoutCleanerInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutCleanerInput, AssignmentUncheckedCreateWithoutCleanerInput>
+  }
+
+  export type AssignmentCreateManyCleanerInputEnvelope = {
+    data: AssignmentCreateManyCleanerInput | AssignmentCreateManyCleanerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RefreshTokenCreateWithoutUserInput = {
     id?: string
     token: string
@@ -7682,6 +9547,8 @@ export namespace Prisma {
     surface?: number | null
     hasElevator?: boolean
     cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
     notes?: string | null
     keys?: string | null
     accessCode?: string | null
@@ -7690,6 +9557,7 @@ export namespace Prisma {
     photos?: AccommodationCreatephotosInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignments?: AssignmentCreateNestedManyWithoutAccommodationInput
   }
 
   export type AccommodationUncheckedCreateWithoutHostInput = {
@@ -7705,6 +9573,8 @@ export namespace Prisma {
     surface?: number | null
     hasElevator?: boolean
     cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
     notes?: string | null
     keys?: string | null
     accessCode?: string | null
@@ -7713,6 +9583,7 @@ export namespace Prisma {
     photos?: AccommodationCreatephotosInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutAccommodationInput
   }
 
   export type AccommodationCreateOrConnectWithoutHostInput = {
@@ -7723,6 +9594,37 @@ export namespace Prisma {
   export type AccommodationCreateManyHostInputEnvelope = {
     data: AccommodationCreateManyHostInput | AccommodationCreateManyHostInput[]
     skipDuplicates?: boolean
+  }
+
+  export type AssignmentUpsertWithWhereUniqueWithoutCleanerInput = {
+    where: AssignmentWhereUniqueInput
+    update: XOR<AssignmentUpdateWithoutCleanerInput, AssignmentUncheckedUpdateWithoutCleanerInput>
+    create: XOR<AssignmentCreateWithoutCleanerInput, AssignmentUncheckedCreateWithoutCleanerInput>
+  }
+
+  export type AssignmentUpdateWithWhereUniqueWithoutCleanerInput = {
+    where: AssignmentWhereUniqueInput
+    data: XOR<AssignmentUpdateWithoutCleanerInput, AssignmentUncheckedUpdateWithoutCleanerInput>
+  }
+
+  export type AssignmentUpdateManyWithWhereWithoutCleanerInput = {
+    where: AssignmentScalarWhereInput
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyWithoutCleanerInput>
+  }
+
+  export type AssignmentScalarWhereInput = {
+    AND?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+    OR?: AssignmentScalarWhereInput[]
+    NOT?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+    id?: StringFilter<"Assignment"> | string
+    accommodationId?: StringFilter<"Assignment"> | string
+    cleanerId?: StringFilter<"Assignment"> | string
+    role?: EnumAssignmentRoleFilter<"Assignment"> | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFilter<"Assignment"> | number
+    message?: StringNullableFilter<"Assignment"> | string | null
+    status?: EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
   }
 
   export type RefreshTokenUpsertWithWhereUniqueWithoutUserInput = {
@@ -7786,6 +9688,8 @@ export namespace Prisma {
     surface?: FloatNullableFilter<"Accommodation"> | number | null
     hasElevator?: BoolFilter<"Accommodation"> | boolean
     cleaningRate?: FloatFilter<"Accommodation"> | number
+    checkOutDateTime?: DateTimeNullableFilter<"Accommodation"> | Date | string | null
+    nextCheckinDateTime?: DateTimeNullableFilter<"Accommodation"> | Date | string | null
     notes?: StringNullableFilter<"Accommodation"> | string | null
     keys?: StringNullableFilter<"Accommodation"> | string | null
     accessCode?: StringNullableFilter<"Accommodation"> | string | null
@@ -7824,6 +9728,8 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    assignments?: AssignmentCreateNestedManyWithoutCleanerInput
     accommodations?: AccommodationCreateNestedManyWithoutHostInput
   }
 
@@ -7855,6 +9761,8 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutCleanerInput
     accommodations?: AccommodationUncheckedCreateNestedManyWithoutHostInput
   }
 
@@ -7902,6 +9810,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    assignments?: AssignmentUpdateManyWithoutCleanerNestedInput
     accommodations?: AccommodationUpdateManyWithoutHostNestedInput
   }
 
@@ -7933,6 +9843,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    assignments?: AssignmentUncheckedUpdateManyWithoutCleanerNestedInput
     accommodations?: AccommodationUncheckedUpdateManyWithoutHostNestedInput
   }
 
@@ -7964,6 +9876,8 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    assignments?: AssignmentCreateNestedManyWithoutCleanerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
   }
 
@@ -7995,12 +9909,46 @@ export namespace Prisma {
     isProfileComplete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutCleanerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccommodationsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutAccommodationsInput, UserUncheckedCreateWithoutAccommodationsInput>
+  }
+
+  export type AssignmentCreateWithoutAccommodationInput = {
+    id?: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cleaner: UserCreateNestedOneWithoutAssignmentsInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutAccommodationInput = {
+    id?: string
+    cleanerId: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentCreateOrConnectWithoutAccommodationInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutAccommodationInput, AssignmentUncheckedCreateWithoutAccommodationInput>
+  }
+
+  export type AssignmentCreateManyAccommodationInputEnvelope = {
+    data: AssignmentCreateManyAccommodationInput | AssignmentCreateManyAccommodationInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutAccommodationsInput = {
@@ -8042,6 +9990,8 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    assignments?: AssignmentUpdateManyWithoutCleanerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
   }
 
@@ -8073,7 +10023,304 @@ export namespace Prisma {
     isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    assignments?: AssignmentUncheckedUpdateManyWithoutCleanerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AssignmentUpsertWithWhereUniqueWithoutAccommodationInput = {
+    where: AssignmentWhereUniqueInput
+    update: XOR<AssignmentUpdateWithoutAccommodationInput, AssignmentUncheckedUpdateWithoutAccommodationInput>
+    create: XOR<AssignmentCreateWithoutAccommodationInput, AssignmentUncheckedCreateWithoutAccommodationInput>
+  }
+
+  export type AssignmentUpdateWithWhereUniqueWithoutAccommodationInput = {
+    where: AssignmentWhereUniqueInput
+    data: XOR<AssignmentUpdateWithoutAccommodationInput, AssignmentUncheckedUpdateWithoutAccommodationInput>
+  }
+
+  export type AssignmentUpdateManyWithWhereWithoutAccommodationInput = {
+    where: AssignmentScalarWhereInput
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyWithoutAccommodationInput>
+  }
+
+  export type AccommodationCreateWithoutAssignmentsInput = {
+    id?: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    host: UserCreateNestedOneWithoutAccommodationsInput
+  }
+
+  export type AccommodationUncheckedCreateWithoutAssignmentsInput = {
+    id?: string
+    hostId: string
+    name: string
+    accommodationType: $Enums.AccommodationType
+    address: string
+    city: string
+    zipCode: string
+    floor?: string | null
+    doorCode?: string | null
+    numberOfRooms: number
+    surface?: number | null
+    hasElevator?: boolean
+    cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
+    notes?: string | null
+    keys?: string | null
+    accessCode?: string | null
+    instructions?: string | null
+    frequency?: string | null
+    photos?: AccommodationCreatephotosInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccommodationCreateOrConnectWithoutAssignmentsInput = {
+    where: AccommodationWhereUniqueInput
+    create: XOR<AccommodationCreateWithoutAssignmentsInput, AccommodationUncheckedCreateWithoutAssignmentsInput>
+  }
+
+  export type UserCreateWithoutAssignmentsInput = {
+    id?: string
+    email: string
+    password?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    phone?: string | null
+    profileImage?: string | null
+    role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    accommodations?: AccommodationCreateNestedManyWithoutHostInput
+  }
+
+  export type UserUncheckedCreateWithoutAssignmentsInput = {
+    id?: string
+    email: string
+    password?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    phone?: string | null
+    profileImage?: string | null
+    role?: $Enums.Role | null
+    about?: string | null
+    playerId?: string | null
+    siretNumber?: string | null
+    isProfessionalVerified?: boolean
+    workCity?: string | null
+    workLatitude?: number | null
+    workLongitude?: number | null
+    serviceRadius?: number | null
+    availability?: string | null
+    licenseNumber?: string | null
+    biography?: string | null
+    interventionZone?: string | null
+    languages?: UserCreatelanguagesInput | string[]
+    servicesOffered?: UserCreateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isPaymentAccepted?: boolean
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    accommodations?: AccommodationUncheckedCreateNestedManyWithoutHostInput
+  }
+
+  export type UserCreateOrConnectWithoutAssignmentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssignmentsInput, UserUncheckedCreateWithoutAssignmentsInput>
+  }
+
+  export type AccommodationUpsertWithoutAssignmentsInput = {
+    update: XOR<AccommodationUpdateWithoutAssignmentsInput, AccommodationUncheckedUpdateWithoutAssignmentsInput>
+    create: XOR<AccommodationCreateWithoutAssignmentsInput, AccommodationUncheckedCreateWithoutAssignmentsInput>
+    where?: AccommodationWhereInput
+  }
+
+  export type AccommodationUpdateToOneWithWhereWithoutAssignmentsInput = {
+    where?: AccommodationWhereInput
+    data: XOR<AccommodationUpdateWithoutAssignmentsInput, AccommodationUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type AccommodationUpdateWithoutAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutAccommodationsNestedInput
+  }
+
+  export type AccommodationUncheckedUpdateWithoutAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    accommodationType?: EnumAccommodationTypeFieldUpdateOperationsInput | $Enums.AccommodationType
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    doorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfRooms?: IntFieldUpdateOperationsInput | number
+    surface?: NullableFloatFieldUpdateOperationsInput | number | null
+    hasElevator?: BoolFieldUpdateOperationsInput | boolean
+    cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    keys?: NullableStringFieldUpdateOperationsInput | string | null
+    accessCode?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutAssignmentsInput = {
+    update: XOR<UserUpdateWithoutAssignmentsInput, UserUncheckedUpdateWithoutAssignmentsInput>
+    create: XOR<UserCreateWithoutAssignmentsInput, UserUncheckedCreateWithoutAssignmentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssignmentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssignmentsInput, UserUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type UserUpdateWithoutAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    accommodations?: AccommodationUpdateManyWithoutHostNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    siretNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isProfessionalVerified?: BoolFieldUpdateOperationsInput | boolean
+    workCity?: NullableStringFieldUpdateOperationsInput | string | null
+    workLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    workLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceRadius?: NullableIntFieldUpdateOperationsInput | number | null
+    availability?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    biography?: NullableStringFieldUpdateOperationsInput | string | null
+    interventionZone?: NullableStringFieldUpdateOperationsInput | string | null
+    languages?: UserUpdatelanguagesInput | string[]
+    servicesOffered?: UserUpdateservicesOfferedInput | string[]
+    isCleanerProfileSetupComplete?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPaymentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    accommodations?: AccommodationUncheckedUpdateManyWithoutHostNestedInput
+  }
+
+  export type AssignmentCreateManyCleanerInput = {
+    id?: string
+    accommodationId: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RefreshTokenCreateManyUserInput = {
@@ -8097,6 +10344,8 @@ export namespace Prisma {
     surface?: number | null
     hasElevator?: boolean
     cleaningRate: number
+    checkOutDateTime?: Date | string | null
+    nextCheckinDateTime?: Date | string | null
     notes?: string | null
     keys?: string | null
     accessCode?: string | null
@@ -8105,6 +10354,39 @@ export namespace Prisma {
     photos?: AccommodationCreatephotosInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type AssignmentUpdateWithoutCleanerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accommodation?: AccommodationUpdateOneRequiredWithoutAssignmentsNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutCleanerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accommodationId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutCleanerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accommodationId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RefreshTokenUpdateWithoutUserInput = {
@@ -8144,6 +10426,8 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8152,6 +10436,7 @@ export namespace Prisma {
     photos?: AccommodationUpdatephotosInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: AssignmentUpdateManyWithoutAccommodationNestedInput
   }
 
   export type AccommodationUncheckedUpdateWithoutHostInput = {
@@ -8167,6 +10452,8 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8175,6 +10462,7 @@ export namespace Prisma {
     photos?: AccommodationUpdatephotosInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: AssignmentUncheckedUpdateManyWithoutAccommodationNestedInput
   }
 
   export type AccommodationUncheckedUpdateManyWithoutHostInput = {
@@ -8190,12 +10478,58 @@ export namespace Prisma {
     surface?: NullableFloatFieldUpdateOperationsInput | number | null
     hasElevator?: BoolFieldUpdateOperationsInput | boolean
     cleaningRate?: FloatFieldUpdateOperationsInput | number
+    checkOutDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextCheckinDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     keys?: NullableStringFieldUpdateOperationsInput | string | null
     accessCode?: NullableStringFieldUpdateOperationsInput | string | null
     instructions?: NullableStringFieldUpdateOperationsInput | string | null
     frequency?: NullableStringFieldUpdateOperationsInput | string | null
     photos?: AccommodationUpdatephotosInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentCreateManyAccommodationInput = {
+    id?: string
+    cleanerId: string
+    role?: $Enums.AssignmentRole
+    pricePerCleaning: number
+    message?: string | null
+    status?: $Enums.AssignmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentUpdateWithoutAccommodationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cleaner?: UserUpdateOneRequiredWithoutAssignmentsNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutAccommodationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cleanerId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutAccommodationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cleanerId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
+    pricePerCleaning?: FloatFieldUpdateOperationsInput | number
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8209,6 +10543,10 @@ export namespace Prisma {
      * @deprecated Use UserCountOutputTypeDefaultArgs instead
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AccommodationCountOutputTypeDefaultArgs instead
+     */
+    export type AccommodationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AccommodationCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -8225,6 +10563,10 @@ export namespace Prisma {
      * @deprecated Use AccommodationDefaultArgs instead
      */
     export type AccommodationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AccommodationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssignmentDefaultArgs instead
+     */
+    export type AssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssignmentDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
