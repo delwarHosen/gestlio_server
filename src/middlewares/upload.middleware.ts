@@ -55,3 +55,4 @@ export const upload = createUploader("profile-images");
 
 // Notun: accommodation photos er jonno
 export const uploadAccommodationPhotos = createUploader("accommodation-photos");
+export const uploadScheduleProofPhotos = createUploader("schedule-proofs");

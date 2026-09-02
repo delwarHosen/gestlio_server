@@ -48,6 +48,9 @@ model User {
   servicesOffered        String[]     @default([])
   assignments            Assignment[]
 
+  hostSchedules    Schedule[] @relation("HostSchedules") // <-- add this
+  cleanerSchedules Schedule[] @relation("CleanerSchedules")
+
   // becomes true once the cleaner completes the mandatory
   // post-signup "setup profile" wizard (cannot be skipped)
   isCleanerProfileSetupComplete Boolean @default(false)
@@ -61,7 +64,8 @@ model User {
   updatedAt      DateTime        @updatedAt
   accommodations Accommodation[]
 
-  isPaymentAccepted Boolean @default(false)
+  isPaymentAccepted Boolean    @default(false)
+  schedules         Schedule[]
 
   @@map("users")
 }
@@ -133,6 +137,8 @@ model Accommodation {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
+  schedules Schedule[]
+
   @@map("accommodations")
 }
 
@@ -164,6 +170,8 @@ model Assignment {
   message          String?
   status           AssignmentStatus @default(PENDING)
 
+  schedules Schedule[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -171,4 +179,53 @@ model Assignment {
   // prevents accidentally sending the same invite twice.
   @@unique([accommodationId, cleanerId])
   @@map("assignments")
+}
+
+// schedule create
+enum ScheduleStatus {
+  PENDING // host created it, waiting for the cleaner to respond
+  ACCEPTED // cleaner accepted, cleaning is confirmed to happen
+  REFUSED // cleaner refused
+  PROOF_SUBMITTED // cleaner finished cleaning and submitted proof photos
+  COMPLETED // host reviewed the proof and approved it
+  INVALIDATED // host reviewed the proof and rejected it
+  DISPUTED // cleaner disputes the host's invalidation
+}
+
+model Schedule {
+  id String @id @default(uuid())
+
+  accommodationId String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  // Links back to the Assignment so we always know which cleaner<->host
+  // relationship this cleaning belongs to (role, agreed price, etc.)
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  hostId String
+  host   User   @relation("HostSchedules", fields: [hostId], references: [id], onDelete: Cascade)
+
+  cleanerId String
+  cleaner   User   @relation("CleanerSchedules", fields: [cleanerId], references: [id], onDelete: Cascade)
+
+  date         DateTime
+  checkOutTime String // "HH:mm" - guest check-out, cleaning window starts here
+  checkInTime  String // "HH:mm" - next guest check-in, cleaning must finish before this
+  notes        String? // instructions from the host to the cleaner
+
+  status ScheduleStatus @default(PENDING)
+
+  proofPhotos String[] @default([])
+  proofNotes  String?
+
+  invalidReason String?
+  disputeReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+
+  @@map("schedules")
 }

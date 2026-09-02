@@ -7,6 +7,7 @@ import accommodationRoutes from "./modules/accommodation/accommodation.routes";
 import cleanerRoutes from "./modules/cleaner/cleaner.routes";
 import paymentRoutes from "./modules/payment/payment.routes";
 import assignmentRoutes from "./modules/assignment/assignment.routes";
+import scheduleRoutes from "./modules/schedule/schedule.routes";
 
 import { errorMiddleware } from "./middlewares/error.middleware";
 
@@ -42,6 +43,9 @@ app.use("/api/v1/assignment", assignmentRoutes);
 
 //Payment routers
 app.use("/api/v1/payment", paymentRoutes);
+
+// schedult path
+app.use("/api/v1/schedule", scheduleRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

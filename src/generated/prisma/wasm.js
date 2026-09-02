@@ -210,6 +210,26 @@ exports.Prisma.AssignmentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ScheduleScalarFieldEnum = {
+  id: 'id',
+  accommodationId: 'accommodationId',
+  assignmentId: 'assignmentId',
+  hostId: 'hostId',
+  cleanerId: 'cleanerId',
+  date: 'date',
+  checkOutTime: 'checkOutTime',
+  checkInTime: 'checkInTime',
+  notes: 'notes',
+  status: 'status',
+  proofPhotos: 'proofPhotos',
+  proofNotes: 'proofNotes',
+  invalidReason: 'invalidReason',
+  disputeReason: 'disputeReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -255,12 +275,23 @@ exports.AssignmentStatus = exports.$Enums.AssignmentStatus = {
   COMPLETED: 'COMPLETED'
 };
 
+exports.ScheduleStatus = exports.$Enums.ScheduleStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REFUSED: 'REFUSED',
+  PROOF_SUBMITTED: 'PROOF_SUBMITTED',
+  COMPLETED: 'COMPLETED',
+  INVALIDATED: 'INVALIDATED',
+  DISPUTED: 'DISPUTED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Otp: 'Otp',
   RefreshToken: 'RefreshToken',
   Accommodation: 'Accommodation',
-  Assignment: 'Assignment'
+  Assignment: 'Assignment',
+  Schedule: 'Schedule'
 };
 
 /**
