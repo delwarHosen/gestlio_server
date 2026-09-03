@@ -1,5 +1,7 @@
 import { prisma } from "../../config/database";
 import { AccommodationType } from "../../constants/accommodationType";
+import { ASSIGNMENT_STATUS } from "../../constants/assignment";
+import { SCHEDULE_STATUS } from "../../constants/schedule";
 import { ApiError } from "../../utils/ApiError";
 
 interface CreateAccommodationInput {
@@ -125,6 +127,74 @@ async function getAccommodationById(id: string, hostId: string) {
   return findOwnedAccommodationOrThrow(id, hostId);
 }
 
+
+
+// GET HOME "TO-DO" FEED (Host)
+// A notification-like activity feed: the most recently updated schedules
+// across all of this host's accommodations. The frontend maps `status`
+// to a label (e.g. PROOF_SUBMITTED -> "Proof submitted - ACTION REQUIRED").
+
+async function getHomeTodo(hostId: string, limit = 20) {
+  return prisma.schedule.findMany({
+    where: { hostId },
+    orderBy: { updatedAt: "desc" },
+    take: limit,
+    include: {
+      cleaner: {
+        select: { id: true, firstName: true, lastName: true, profileImage: true },
+      },
+      accommodation: {
+        select: { id: true, name: true, city: true, photos: true },
+      },
+    },
+  });
+}
+
+
+
+
+
+// GET RECOMMENDED SCHEDULE (Host)
+// Accommodations that have at least one ACCEPTED cleaner, but currently
+// have no schedule "in flight" (pending / accepted / proof submitted).
+// These are the accommodations the host should schedule next.
+
+async function getRecommendedSchedule(hostId: string) {
+  const accommodations = await prisma.accommodation.findMany({
+    where: {
+      hostId,
+      assignments: { some: { status: ASSIGNMENT_STATUS.ACCEPTED } },
+    },
+    include: {
+      assignments: {
+        where: { status: ASSIGNMENT_STATUS.ACCEPTED },
+        include: {
+          cleaner: {
+            select: { id: true, firstName: true, lastName: true, profileImage: true },
+          },
+        },
+      },
+      schedules: {
+        where: {
+          status: {
+            in: [
+              SCHEDULE_STATUS.PENDING,
+              SCHEDULE_STATUS.ACCEPTED,
+              SCHEDULE_STATUS.PROOF_SUBMITTED,
+            ],
+          },
+        },
+      },
+    },
+  });
+
+  // Only keep accommodations that have NO active schedule right now
+  return accommodations
+    .filter((acc) => acc.schedules.length === 0)
+    .map(({ schedules, ...rest }) => rest); // drop the (empty) schedules array from the response
+}
+
+
 // UPDATE ACCOMMODATION (Host only - must own it)
 async function updateAccommodation(
   id: string,
@@ -188,4 +258,6 @@ export const accommodationService = {
   getAccommodationById,
   updateAccommodation,
   deleteAccommodation,
+  getHomeTodo,               
+  getRecommendedSchedule, 
 };

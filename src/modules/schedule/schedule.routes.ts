@@ -72,6 +72,23 @@ router.get(
   scheduleController.getCleanerSchedules
 );
 
+
+router.get(
+  "/cleaner/my-schedules",
+  authenticate,
+  authorizeRoles(ROLE.CLEANER),
+  scheduleController.getCleanerSchedules
+);
+
+router.get(
+  "/cleaner/home",
+  authenticate,
+  authorizeRoles(ROLE.CLEANER),
+  scheduleController.getCleanerHome
+);
+
+
+
 router.patch(
   "/cleaner/:scheduleId/respond",
   authenticate,

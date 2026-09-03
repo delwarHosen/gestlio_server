@@ -1,7 +1,10 @@
 import { Router } from "express";
 import * as accommodationController from "./accommodation.controller";
 import { validate } from "../../middlewares/validate.middleware";
-import { authenticate, authorizeRoles } from "../../middlewares/auth.middleware";
+import {
+  authenticate,
+  authorizeRoles,
+} from "../../middlewares/auth.middleware";
 import {
   createAccommodationSchema,
   getMyAccommodationsSchema,
@@ -20,7 +23,7 @@ router.post(
   authorizeRoles(ROLE.HOST),
   uploadAccommodationPhotos.array("photos", 10),
   validate(createAccommodationSchema),
-  accommodationController.createAccommodation
+  accommodationController.createAccommodation,
 );
 
 router.get(
@@ -28,7 +31,7 @@ router.get(
   authenticate,
   authorizeRoles(ROLE.HOST),
   validate(getMyAccommodationsSchema),
-  accommodationController.getMyAccommodations
+  accommodationController.getMyAccommodations,
 );
 
 router.get(
@@ -36,7 +39,49 @@ router.get(
   authenticate,
   authorizeRoles(ROLE.HOST),
   validate(accommodationIdParamSchema),
-  accommodationController.getAccommodationById
+  accommodationController.getAccommodationById,
+);
+
+router.post(
+  "/",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  uploadAccommodationPhotos.array("photos", 10),
+  validate(createAccommodationSchema),
+  accommodationController.createAccommodation,
+);
+
+router.get(
+  "/",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  validate(getMyAccommodationsSchema),
+  accommodationController.getMyAccommodations,
+);
+
+// IMPORTANT: fixed paths like /home and /recommended-schedule must come
+// BEFORE the dynamic /:id route, otherwise Express would treat "home" or
+// "recommended-schedule" as an accommodation id.
+router.get(
+  "/home",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  accommodationController.getHomeTodo,
+);
+
+router.get(
+  "/recommended-schedule",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  accommodationController.getRecommendedSchedule,
+);
+
+router.get(
+  "/:id",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  validate(accommodationIdParamSchema),
+  accommodationController.getAccommodationById,
 );
 
 router.patch(
@@ -45,7 +90,7 @@ router.patch(
   authorizeRoles(ROLE.HOST),
   uploadAccommodationPhotos.array("photos", 10),
   validate(updateAccommodationSchema),
-  accommodationController.updateAccommodation
+  accommodationController.updateAccommodation,
 );
 
 router.delete(
@@ -53,7 +98,24 @@ router.delete(
   authenticate,
   authorizeRoles(ROLE.HOST),
   validate(accommodationIdParamSchema),
-  accommodationController.deleteAccommodation
+  accommodationController.deleteAccommodation,
+);
+
+router.patch(
+  "/:id",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  uploadAccommodationPhotos.array("photos", 10),
+  validate(updateAccommodationSchema),
+  accommodationController.updateAccommodation,
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorizeRoles(ROLE.HOST),
+  validate(accommodationIdParamSchema),
+  accommodationController.deleteAccommodation,
 );
 
 export default router;

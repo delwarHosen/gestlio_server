@@ -329,6 +329,61 @@ async function reportDispute(cleanerId: string, scheduleId: string, reason: stri
   });
 }
 
+
+// GET CLEANER HOME (today's cleaning + upcoming)
+// Matches the Figma "Home" screen: X missions today, completed count,
+// today's cleaning list, and upcoming tasks list.
+
+async function getCleanerHome(cleanerId: string) {
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  const endOfToday = new Date(startOfToday);
+  endOfToday.setHours(23, 59, 59, 999);
+
+  const [todayMissions, upcomingMissions, completedTodayCount] = await Promise.all([
+    // Today's missions still in progress (accepted or proof already submitted)
+    prisma.schedule.findMany({
+      where: {
+        cleanerId,
+        date: { gte: startOfToday, lte: endOfToday },
+        status: { in: [SCHEDULE_STATUS.ACCEPTED, SCHEDULE_STATUS.PROOF_SUBMITTED] },
+      },
+      include: SCHEDULE_INCLUDE,
+      orderBy: { checkOutTime: "asc" },
+    }),
+
+    // Future missions (pending or accepted), soonest first
+    prisma.schedule.findMany({
+      where: {
+        cleanerId,
+        date: { gt: endOfToday },
+        status: { in: [SCHEDULE_STATUS.PENDING, SCHEDULE_STATUS.ACCEPTED] },
+      },
+      include: SCHEDULE_INCLUDE,
+      orderBy: { date: "asc" },
+      take: 10,
+    }),
+
+    // How many of today's missions are already fully completed
+    prisma.schedule.count({
+      where: {
+        cleanerId,
+        date: { gte: startOfToday, lte: endOfToday },
+        status: SCHEDULE_STATUS.COMPLETED,
+      },
+    }),
+  ]);
+
+  return {
+    missionsToday: todayMissions.length,
+    completedToday: completedTodayCount,
+    todayMissions,
+    upcomingMissions,
+  };
+}
+
+
 export const scheduleService = {
   createSchedule,
   getHostSchedules,
@@ -341,4 +396,5 @@ export const scheduleService = {
   invalidateTask,
   completeTask,
   reportDispute,
+  getCleanerHome,
 };

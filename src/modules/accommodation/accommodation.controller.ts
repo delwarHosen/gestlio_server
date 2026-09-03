@@ -37,6 +37,24 @@ export const getMyAccommodations = catchAsync(
   },
 );
 
+
+
+export const getHomeTodo = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) throw new ApiError(401, "Unauthorized");
+
+  const todo = await accommodationService.getHomeTodo(req.user.userId);
+  sendResponse(res, 200, "Home to-do feed fetched successfully", todo);
+});
+
+export const getRecommendedSchedule = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) throw new ApiError(401, "Unauthorized");
+
+  const recommended = await accommodationService.getRecommendedSchedule(req.user.userId);
+  sendResponse(res, 200, "Recommended schedule fetched successfully", recommended);
+});
+
+
+
 // get accommodation by id
 export const getAccommodationById = catchAsync(
   async (req: Request, res: Response) => {

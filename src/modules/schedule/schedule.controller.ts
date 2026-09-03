@@ -25,6 +25,15 @@ export const getHostSchedules = catchAsync(async (req: Request, res: Response) =
   sendResponse(res, 200, "Schedules fetched successfully", schedules);
 });
 
+
+export const getCleanerHome = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) throw new ApiError(401, "Unauthorized");
+
+  const home = await scheduleService.getCleanerHome(req.user.userId);
+  sendResponse(res, 200, "Home data fetched successfully", home);
+});
+
+
 export const editSchedule = catchAsync(async (req: Request, res: Response) => {
   if (!req.user) throw new ApiError(401, "Unauthorized");
 
